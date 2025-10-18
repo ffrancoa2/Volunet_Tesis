@@ -1,0 +1,41 @@
+# Entorno virtual
+env/
+venv/
+.venv/
+
+# Archivos de configuración locales
+*.env
+*.local
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+*.so
+
+# Archivos de logs
+*.log
+
+# Archivos de base de datos (si usas SQLite en desarrollo)
+db.sqlite3
+
+# Archivos de migraciones compilados
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Archivos de VS Code
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de cobertura/pruebas
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Archivos estáticos compilados
+staticfiles/
+media/

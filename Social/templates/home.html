@@ -1,8 +1,139 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Inicio - Voluntariado Digital{% endblock %}
 
 {% block content %}
-<h2>Bienvenido a la Plataforma de Voluntariado</h2>
-<p>Aquí puedes explorar actividades y conectarte con organizaciones.</p>
+
+<!-- Hero principal -->
+<section id="hero" class="hero-clean d-flex align-items-center justify-content-center text-center">
+  <div class="container">
+    <h1 class="hero-title">
+      Conectamos <span class="highlight">personas</span> para transformar comunidades.
+    </h1>
+    <p class="hero-subtitle mt-4">
+      Sé parte de nuestra red de voluntariado digital.<br>
+      Crea impacto real desde donde estés.
+    </p>
+    <a href="#" class="btn-hero mt-5">Únete ahora</a>
+  </div>
+</section>
+
+
+<br>
+<!-- Sección Misión / Visión / Valores -->
+<section id="mision-vision" class="mv-horizontal">
+  <div class="row no-gutters">
+    <!-- Misión -->
+    <div class="col-md-6 mv-block mv-mision">
+      <div class="mv-content text-center text-md-start">
+        <div class="mv-icon">
+          <!-- Icono Misión: Corazón solidario -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.015-4.5-4.5-4.5S12 5.765 12 8.25 14.015 12.75 16.5 12.75 21 10.735 21 8.25zM3 8.25c0-2.485 2.015-4.5 4.5-4.5S12 5.765 12 8.25 9.985 12.75 7.5 12.75 3 10.735 3 8.25z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-4.5m0 0L9 15m3 1.5 3-1.5" />
+          </svg>
+        </div>
+        <h2>MISIÓN</h2>
+        <div class="mv-line"></div>
+        <p>
+          Conectar a personas y comunidades mediante una plataforma digital que promueva la solidaridad,
+          el apoyo social y la participación ciudadana. Buscamos optimizar el voluntariado mediante la
+          tecnología, garantizando confianza y efectividad en cada colaboración.
+        </p>
+      </div>
+    </div>
+
+    <!-- Visión -->
+    <div class="col-md-6 mv-block mv-vision">
+      <div class="mv-content text-center text-md-start">
+        <div class="mv-icon">
+          <!-- Icono Visión: Ojo y horizonte -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </div>
+        <h2>VISIÓN</h2>
+        <div class="mv-line"></div>
+        <p>
+          Ser la plataforma líder de voluntariado digital en América Latina, reconocida por su impacto social
+          y uso ético de la tecnología para fortalecer el tejido comunitario y fomentar la participación ciudadana.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Valores -->
+  <div class="mv-valores text-center py-5">
+    <div class="mv-icon mb-3">
+      <!-- Icono Valores: Estrella -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="#2e7d32" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.563.563 0 011.04 0l2.125 5.183a.563.563 0 00.475.346l5.554.445a.563.563 0 01.314.986l-4.216 3.632a.563.563 0 00-.182.557l1.313 5.313a.563.563 0 01-.845.61l-4.672-2.77a.563.563 0 00-.578 0l-4.672 2.77a.563.563 0 01-.845-.61l1.313-5.313a.563.563 0 00-.182-.557L3.012 10.46a.563.563 0 01.314-.986l5.554-.445a.563.563 0 00.475-.346L11.48 3.5z" />
+      </svg>
+    </div>
+    <h2>VALORES</h2>
+    <div class="mv-line mx-auto"></div>
+    <p class="mt-3">
+      Solidaridad · Transparencia · Innovación · Compromiso · Confianza
+    </p>
+  </div>
+</section>
+
+
+<!-- Sección Actividades -->
+<section id="actividades" class="activities-section py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Actividades</h2>
+    <p class="section-subtitle mb-5">Explora las formas en que puedes participar y crear impacto real.</p>
+
+    <div class="activities-grid">
+      <div class="activity-card">
+        <div class="icon">🤝</div>
+        <h3>Voluntariado en línea</h3>
+        <p>Apoya causas sociales a través de mentorías, asesorías o acompañamiento digital.</p>
+      </div>
+
+      <div class="activity-card">
+         <div class="icon">👕</div>
+         <h3>Donación de Ropa</h3>
+         <p>
+         Participa recolectando y organizando prendas en buen estado para personas y comunidades que más lo necesitan.
+         </p>
+        </div>
+
+      <div class="activity-card">
+        <div class="icon">🌱</div>
+        <h3>Proyectos sostenibles</h3>
+        <p>Colabora en iniciativas ecológicas y de desarrollo sostenible.</p>
+      </div>
+
+      <div class="activity-card">
+        <div class="icon">📚</div>
+        <h3>Educación solidaria</h3>
+        <p>Comparte tus conocimientos mediante cursos, charlas y recursos educativos.</p>
+      </div>
+      <div class="activity-card">
+        <div class="icon">🏥</div>
+        <h3>Salud comunitaria</h3>
+        <p>Participa en campañas de salud, bienestar y apoyo psicológico.</p>
+    </div>
+        <div class="activity-card">
+            <div class="icon">🎨</div>
+            <h3>Arte y cultura</h3>
+            <p>Fomenta la inclusión social a través de actividades artísticas y culturales.</p>
+        </div>
+  </div>
+</section>
+
+
+<!-- Llamado a la acción -->
+<section id="registro" class="regsiter-section text-center py-5">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Sé parte del cambio</h2>
+    <p class="mb-4">Regístrate como voluntario o publica tu iniciativa social.</p>
+    <a href="{% url 'register'%}" class="btn btn-light btn-lg px-4 py-2 rounded-pill">Comenzar</a>
+  </div>
+</section>
+
 {% endblock %}

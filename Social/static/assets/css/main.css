@@ -64,6 +64,7 @@ body {
   color: var(--default-color);
   background-color: var(--background-color);
   font-family: var(--default-font);
+  padding-top: 80px; /* deja espacio para el header fijo */
 }
 
 a {
@@ -511,7 +512,7 @@ h6 {
 --------------------------------------------------------------*/
 .footer {
   color: var(--default-color);
-  background-color: var(--background-color);
+  background-color: #b6d1da;
   font-size: 14px;
   padding-bottom: 50px;
   position: relative;
@@ -1942,8 +1943,8 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Starter Section Section
+# principal
 --------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
-}
+/* Sección principal con fondo */
+
+

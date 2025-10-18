@@ -1,0 +1,198 @@
+/* Fondo con degradado */
+.register-section {
+  background: linear-gradient(135deg, #a7d3b0 0%, #4caf50 100%) !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px !important;
+}
+
+/* Contenedor principal */
+.register-container {
+  display: flex !important;
+  background-color: #ffffff !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  max-width: 900px !important;
+  width: 100% !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Imagen lateral */
+.register-image {
+  flex: 1 !important;
+  background-color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.register-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Formulario */
+.register-form {
+  flex: 1 !important;
+  padding: 40px 45px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  background-color: #ffffff !important;
+}
+
+.register-form h2 {
+  font-weight: 700 !important;
+  color: #1b4332 !important;
+}
+
+/* Campos flotantes */
+.form-floating > .form-control,
+.form-floating > .form-select {
+  border: 2px solid #4caf50 !important;
+  border-radius: 8px !important;
+  background-color: #f9fff9 !important;
+  color: #1b4332 !important;
+  transition: 0.3s !important;
+}
+
+.form-floating > label {
+  color: #4caf50 !important;
+}
+
+.form-floating > .form-control:focus,
+.form-floating > .form-select:focus {
+  border-color: #2e7d32 !important;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.4) !important;
+}
+
+/* Botón */
+.btn-register {
+  background-color: #4caf50 !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: none !important;
+  padding: 12px !important;
+  border-radius: 30px !important;
+  transition: 0.3s ease !important;
+}
+
+.btn-register:hover {
+  background-color: #2e7d32 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-container {
+    flex-direction: column !important;
+    max-width: 500px !important;
+  }
+
+  .register-image {
+    height: 200px !important;
+  }
+
+  .register-image img {
+    object-fit: contain !important;
+  }
+
+  .register-form {
+    padding: 25px !important;
+  }
+}
+/*login*/
+
+/* Fondo general */
+.neo-login {
+  background: #cde5cf; /* verde pastel suave */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Tarjeta del login */
+.neo-card {
+  background: #d7f0d8; /* tono ligeramente más claro */
+  border-radius: 20px;
+  padding: 40px 35px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow:
+    8px 8px 20px rgba(163, 177, 138, 0.4),
+    -8px -8px 20px rgba(255, 255, 255, 0.6);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Icono superior */
+.neo-icon {
+  background: #4caf50;
+  color: #fff;
+  font-size: 30px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.4);
+}
+
+/* Campos del formulario */
+.form-control {
+  background: #d7f0d8;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.15),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.5);
+  transition: 0.3s ease;
+  color: #1b4332;
+}
+
+.form-control:focus {
+  outline: none;
+  box-shadow:
+    inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.6),
+    0 0 5px #4caf50;
+}
+
+/* Botón principal */
+.btn-neo {
+  background: linear-gradient(145deg, #56b35c, #3d8e41);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 25px;
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.4);
+  transition: 0.3s ease;
+}
+
+.btn-neo:hover {
+  background: linear-gradient(145deg, #3d8e41, #56b35c);
+  transform: translateY(-2px);
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  accent-color: #4caf50;
+}

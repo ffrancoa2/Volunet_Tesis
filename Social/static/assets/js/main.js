@@ -176,5 +176,49 @@
   }
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
+  // ---- Smooth Scroll for internal anchors ----
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId.length > 1 && document.querySelector(targetId)) {
+        e.preventDefault();
+        document.querySelector(targetId).scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
 
+  // ---- Fade-up animation for mission/vision/values cards ----
+  const fadeElements = document.querySelectorAll('.card-wrapper, .activities .card, .cta, #hero h1, #hero p, #hero a');
+
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-up');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  fadeElements.forEach(el => fadeObserver.observe(el));
+
+  // ---- Add .fade-up styles dynamically if not in CSS ----
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .fade-up {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      transition: all 0.8s ease-in-out;
+    }
+    .card-wrapper, .activities .card, .cta, #hero h1, #hero p, #hero a {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  `;
+  document.head.appendChild(style);
+
+  console.log('✨ Custom landing animations initialized successfully!');
 })();
+
