@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 
 {% block title %}Registro - Voluntariado Digital{% endblock %}
@@ -41,8 +41,8 @@
         </div>
 
         <div class="form-floating mb-3">
-          <input type="date" class="form-control" id="birth_date" name="birth_date" required>
-          <label for="birth_date">Fecha de nacimiento</label>
+          <input type="date" class="form-control" id="date" name="date" required>
+          <label for="date">Fecha de nacimiento</label>
         </div>
 
         <div class="form-floating mb-3">
@@ -64,6 +64,11 @@
         <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirmar contraseña" required>
         <label for="password2">Confirmar contraseña</label>
       </div>
+      {% if form.errors %}
+       <div class="alert alert-danger">
+        {{ form.errors }}
+      </div>
+      {% endif %}
 
         <button type="submit" class="btn-register w-100 mt-3">¡Registrarse!</button>
       </form>

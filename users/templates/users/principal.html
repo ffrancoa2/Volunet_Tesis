@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 
 {% block title %}Página Principal - Voluntariado Digital{% endblock %}
@@ -27,7 +27,7 @@
         </div>
 
         <div class="button-group mt-4">
-            <a href="#" class="btn-principal">Soy voluntario</a>
+            <a href="{% url 'volunter'%}" class="btn-principal">Soy voluntario</a>
             <a href="#" class="btn-principal">Necesito ayuda</a>
         </div>
     </div>
