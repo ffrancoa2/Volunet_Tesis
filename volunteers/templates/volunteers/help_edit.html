@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Edit Help Request - Volunteering Platform{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+  <div class="col-md-6 mx-auto">
+    <div class="card shadow-sm p-4">
+      <h3 class="text-success fw-bold text-center mb-4">Edit Help Request</h3>
+
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+          <label for="id_title" class="form-label">Title</label>
+          {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_description" class="form-label">Description</label>
+          {{ form.description }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_category" class="form-label">Category</label>
+          {{ form.category }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_location" class="form-label">Location</label>
+          {{ form.location }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_date" class="form-label">Date</label>
+          {{ form.date }}
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Save Changes</button>
+        <a href="{% url 'volunteers:help' %}" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

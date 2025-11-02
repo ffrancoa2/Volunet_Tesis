@@ -1,0 +1,292 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Gestión de Solicitudes - Voluntariado Digital{% endblock %}
+
+{% block content %}
+<section class="volunteer-dashboard">
+  <div class="container">
+    <div class="dashboard-header text-center mb-4">
+      <h1>Gestión de Solicitudes de Ayuda</h1>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="content-card">
+          <h2 class="section-title" style="font-size: 1.3rem; margin-bottom: 25px;">Publicar Solicitud</h2>
+
+          <form method="POST" action="{% url 'volunteers:help' %}" class="register-form" style="padding: 0;">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="form-floating mb-3">
+              <i class="fas fa-heading input-icon"></i>
+              {{ form.title }}
+              <label for="{{ form.title.id_for_label }}">Título</label>
+              {% if form.title.errors %}
+                <div class="text-danger small mt-1">{{ form.title.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+              <i class="fas fa-align-left input-icon"></i>
+              {{ form.description }}
+              <label for="{{ form.description.id_for_label }}">Descripción</label>
+              {% if form.description.errors %}
+                <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="form-floating mb-3">
+              <i class="fas fa-tags input-icon"></i>
+              {{ form.category }}
+              <label for="{{ form.category.id_for_label }}">Categoría</label>
+              {% if form.category.errors %}
+                <div class="text-danger small mt-1">{{ form.category.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div id="fields-dinero" style="display:none;">
+              <div class="form-floating mb-3">
+                <i class="fas fa-credit-card input-icon"></i>
+                {{ form.account_number }}
+                <label for="{{ form.account_number.id_for_label }}">Número de cuenta</label>
+                {% if form.account_number.errors %}
+                  <div class="text-danger small mt-1">{{ form.account_number.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="form-floating mb-3">
+                <i class="fas fa-dollar-sign input-icon"></i>
+                {{ form.amount }}
+                <label for="{{ form.amount.id_for_label }}">Monto solicitado</label>
+                {% if form.amount.errors %}
+                  <div class="text-danger small mt-1">{{ form.amount.errors }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div id="fields-location">
+              <div class="form-floating mb-3">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+                {{ form.location }}
+                <label for="{{ form.location.id_for_label }}">Ubicación</label>
+                {{ form.lat }}
+                {{ form.lng }}
+                {% if form.location.errors %}
+                  <div class="text-danger small mt-1">{{ form.location.errors }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div id="fields-fechas" class="row">
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <i class="fas fa-calendar-alt input-icon"></i>
+                  {{ form.date_start }}
+                  <label for="{{ form.date_start.id_for_label }}">Fecha inicio</label>
+                  {% if form.date_start.errors %}
+                    <div class="text-danger small mt-1">{{ form.date_start.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <i class="fas fa-calendar-check input-icon"></i>
+                  {{ form.date_end }}
+                  <label for="{{ form.date_end.id_for_label }}">Fecha fin</label>
+                  {% if form.date_end.errors %}
+                    <div class="text-danger small mt-1">{{ form.date_end.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-register">Publicar Solicitud</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="content-card">
+          <h2 class="section-title" style="font-size: 1.3rem; margin-bottom: 25px;">Mis Solicitudes</h2>
+
+          <div class="table-responsive">
+            <table class="activities-table">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Categoría</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for req in requests %}
+                <tr>
+                  <td><strong>{{ req.title }}</strong></td>
+                  <td>{{ req.get_category_display }}</td>
+                  <td>{{ req.date_start|date:"Y-m-d" }}</td>
+                  <td>{{ req.date_end|date:"Y-m-d" }}</td>
+                  <td>
+                    {% if req.status == "active" %}
+                      <span class="status-badge status-activa">Activa</span>
+                    {% elif req.status == "pending" %}
+                      <span class="status-badge status-pendiente">Pendiente</span>
+                    {% elif req.status == "closed" %}
+                      <span class="status-badge status-cerrada">Cerrada</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-center gap-2">
+                      <button type="button" class="btn btn-sm btn-outline-success rounded-circle" 
+                              data-bs-toggle="modal" data-bs-target="#detailModal{{ req.id }}"
+                              style="width: 35px; height: 35px;">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <a href="{% url 'volunteers:edit_request' req.pk %}" 
+                         class="btn btn-sm btn-outline-warning rounded-circle"
+                         style="width: 35px; height: 35px;">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <a href="{% url 'volunteers:delete_request' req.pk %}" 
+                         class="btn btn-sm btn-outline-danger rounded-circle"
+                         style="width: 35px; height: 35px;">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <div class="modal fade" id="detailModal{{ req.id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ req.id }}" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 28px; overflow: hidden;">
+                      <div class="modal-header" style="background: linear-gradient(135deg, #66d9a4, #4ecb97); color: white; border: none;">
+                        <h5 class="modal-title fw-bold" id="detailModalLabel{{ req.id }}" style="text-transform: uppercase; letter-spacing: 1.5px;">
+                          {{ req.title }}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+
+                      <div class="modal-body p-4">
+                        <div class="p-3">
+                          <h4 style="color: #2e2e2e; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; font-size: 1.1rem;">
+                            Detalles de la Solicitud
+                          </h4>
+                          <hr style="border-color: #66d9a4; opacity: 0.3;">
+
+                          <div class="detail-item mb-3">
+                            <strong style="color: #666;">Descripción:</strong>
+                            <p style="color: #2e2e2e; margin-top: 5px;">{{ req.description }}</p>
+                          </div>
+
+                          <div class="detail-item mb-3">
+                            <strong style="color: #666;">Categoría:</strong>
+                            <p style="color: #2e2e2e; margin-top: 5px;">{{ req.get_category_display }}</p>
+                          </div>
+
+                          {% if req.category == 'dinero' %}
+                            <div class="detail-item mb-3">
+                              <strong style="color: #666;">Número de cuenta:</strong>
+                              <p style="color: #2e2e2e; margin-top: 5px;">{{ req.account_number }}</p>
+                            </div>
+                            <div class="detail-item mb-3">
+                              <strong style="color: #666;">Monto solicitado:</strong>
+                              <p style="color: #2e2e2e; margin-top: 5px;">${{ req.amount }}</p>
+                            </div>
+                          {% else %}
+                            {% if req.location %}
+                              <div class="detail-item mb-3">
+                                <strong style="color: #666;">Ubicación:</strong>
+                                <p style="color: #2e2e2e; margin-top: 5px;">{{ req.location }}</p>
+                              </div>
+                            {% endif %}
+                            {% if req.lat and req.lng %}
+                              <div class="detail-item mb-3">
+                                <strong style="color: #666;">Coordenadas:</strong>
+                                <p style="color: #2e2e2e; margin-top: 5px;">Lat: {{ req.lat }} | Lng: {{ req.lng }}</p>
+                              </div>
+                            {% endif %}
+                          {% endif %}
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="detail-item mb-3">
+                                <strong style="color: #666;">Fecha de inicio:</strong>
+                                <p style="color: #2e2e2e; margin-top: 5px;">{{ req.date_start|date:"Y-m-d" }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="detail-item mb-3">
+                                <strong style="color: #666;">Fecha de fin:</strong>
+                                <p style="color: #2e2e2e; margin-top: 5px;">{{ req.date_end|date:"Y-m-d" }}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="detail-item mb-3">
+                            <strong style="color: #666;">Estado:</strong>
+                            <div style="margin-top: 5px;">
+                              {% if req.status == "active" %}
+                                <span class="status-badge status-activa">Activa</span>
+                              {% elif req.status == "pending" %}
+                                <span class="status-badge status-pendiente">Pendiente</span>
+                              {% elif req.status == "closed" %}
+                                <span class="status-badge status-cerrada">Cerrada</span>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          <div class="detail-item">
+                            <strong style="color: #666;">Creado el:</strong>
+                            <p style="color: #2e2e2e; margin-top: 5px;">{{ req.created_at|date:"Y-m-d H:i" }}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal-footer d-flex justify-content-center gap-3">
+                        <a href="{% url 'volunteers:edit_request' req.pk %}" class="btn btn-warning rounded-pill px-4">
+                          <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a href="{% url 'volunteers:delete_request' req.pk %}" class="btn btn-danger rounded-pill px-4">
+                          <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                          Cerrar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center text-muted" style="padding: 40px;">
+                    No tienes solicitudes registradas.
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'assets/js/help_map.js' %}"></script>
+  <script src="{% static 'assets/js/help_form.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+if (window.history.replaceState) {
+  window.history.replaceState(null, null, window.location.href);
+}
+</script>
+{% endblock %}

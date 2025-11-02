@@ -48,18 +48,24 @@ a:active {
 /* ===========================================
    2. HEADER / NAVBAR
    =========================================== */
+body {
+  padding-top: 90px;
+  background-color: #f6fdf7;
+}
+
 #header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #f9fdf9;
+  background: #f9fdf9 !important;
   border-bottom: 3px solid #a8e6cf;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   z-index: 9999;
   padding: 14px 0;
   transition: all 0.3s ease;
 }
+
 body.scrolled #header {
   background-color: #ffffff;
   border-bottom: 3px solid #81c784;
@@ -84,6 +90,7 @@ body.scrolled #header {
   border-radius: 6px;
   transition: all 0.3s ease;
 }
+
 #header .nav-link:hover,
 #header .nav-link.active {
   color: #ffffff;
@@ -100,6 +107,7 @@ body.scrolled #header {
 .logo:hover {
   transform: scale(1.05);
 }
+
 .logo-text {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
@@ -109,9 +117,12 @@ body.scrolled #header {
   text-transform: uppercase;
   margin-right: 500px;
 }
-body {
-  padding-top: 90px;
-  background-color: #f6fdf7;
+
+header nav a.active {
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+  transition: 0.3s;
 }
 
 @media (max-width: 768px) {
@@ -129,227 +140,382 @@ body {
    =========================================== */
 .hero-clean {
   min-height: 100vh;
-  background: linear-gradient(135deg, #a8e6cf 0%, #c8e6c9 40%, #f9fff9 100%);
+  background: linear-gradient(135deg, #d4f1e8 0%, #c8e6d4 50%, #b8dcc5 100%);
   position: relative;
   padding: 100px 20px;
   overflow: hidden;
 }
+
+/* Burbujas de fondo */
 .hero-clean::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 25% 30%, rgba(255,255,255,0.5), transparent 60%),
-              radial-gradient(circle at 75% 70%, rgba(255,255,255,0.3), transparent 60%);
-  animation: heroGlow 12s ease-in-out infinite alternate;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.25), transparent 70%);
+  top: -200px;
+  right: -150px;
+  border-radius: 50%;
+  animation: floatBubble 20s infinite ease-in-out;
   z-index: 0;
 }
-@keyframes heroGlow {
-  0% { opacity: 0.5; transform: scale(1); }
-  100% { opacity: 0.9; transform: scale(1.05); }
+
+.hero-clean::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(129, 199, 132, 0.3), transparent 70%);
+  bottom: -150px;
+  left: -100px;
+  border-radius: 50%;
+  animation: floatBubble 20s infinite ease-in-out;
+  animation-delay: -10s;
+  z-index: 0;
 }
 
+@keyframes floatBubble {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.15); }
+  66% { transform: translate(-20px, 20px) scale(0.85); }
+}
+
+/* Iconos flotantes */
+.floating-icons {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.float-icon {
+  position: absolute;
+  opacity: 0.25;
+  filter: drop-shadow(0 2px 8px rgba(76, 175, 80, 0.3));
+}
+
+.icon-1 {
+  top: 12%;
+  left: 8%;
+  animation: floatIcon 18s infinite ease-in-out;
+}
+
+.icon-2 {
+  top: 20%;
+  right: 10%;
+  animation: floatIcon 20s infinite ease-in-out;
+  animation-delay: -5s;
+}
+
+.icon-3 {
+  bottom: 15%;
+  left: 12%;
+  animation: floatIcon 22s infinite ease-in-out;
+  animation-delay: -10s;
+}
+
+.icon-4 {
+  bottom: 25%;
+  right: 15%;
+  animation: floatIcon 19s infinite ease-in-out;
+  animation-delay: -15s;
+}
+
+@keyframes floatIcon {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+    opacity: 0.25;
+  }
+  25% { 
+    transform: translateY(-25px) rotate(3deg); 
+    opacity: 0.35;
+  }
+  50% { 
+    transform: translateY(-15px) rotate(-3deg); 
+    opacity: 0.3;
+  }
+  75% { 
+    transform: translateY(-30px) rotate(2deg); 
+    opacity: 0.28;
+  }
+}
+
+/* Título hero */
 .hero-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1b5e20;
-  line-height: 1.3;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #2d5016;
+  line-height: 1.2;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   z-index: 2;
   position: relative;
+  margin-bottom: 30px;
 }
+
 .hero-title .highlight {
-  color: #2e7d32;
-  background: linear-gradient(90deg, #66bb6a, #81c784);
+  background: linear-gradient(135deg, #81c784, #4caf50);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+  animation: shimmer 3s infinite;
 }
+
+@keyframes shimmer {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+/* Subtítulo hero */
 .hero-subtitle {
-  font-size: 1.15rem;
-  color: #3e3e3e;
-  font-weight: 400;
-  margin-top: 20px;
-  max-width: 650px;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #4a5c3a;
+  font-weight: 600;
+  line-height: 1.7;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   z-index: 2;
+  position: relative;
 }
+
+/* Botón hero */
 .btn-hero {
   display: inline-block;
-  background: linear-gradient(90deg, #43a047, #66bb6a);
+  background: linear-gradient(135deg, #4caf50, #388e3c);
   color: #ffffff;
-  font-weight: 600;
-  padding: 14px 40px;
-  border-radius: 40px;
-  box-shadow: 0 4px 10px rgba(129, 199, 132, 0.4);
+  font-weight: 700;
+  padding: 18px 50px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
   transition: all 0.3s ease;
   font-size: 1.1rem;
   position: relative;
   z-index: 2;
-}
-.btn-hero:hover {
-  background: linear-gradient(90deg, #2e7d32, #43a047);
-  transform: translateY(-4px);
-  box-shadow: 0 6px 15px rgba(56, 142, 60, 0.5);
+  text-decoration: none;
+  overflow: hidden;
+  animation: pulse 2s infinite 2s;
 }
 
-/* Animaciones */
+.btn-hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-hero:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-hero:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(76, 175, 80, 0.5);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn-hero:active {
+  transform: translateY(-1px);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+  }
+  50% {
+    box-shadow: 0 10px 40px rgba(76, 175, 80, 0.6);
+  }
+}
+
+/* Animaciones de entrada hero */
 .hero-title, .hero-subtitle, .btn-hero {
   opacity: 0;
-  transform: translateY(40px);
-  animation: fadeUp 1s ease forwards;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
 }
-.hero-subtitle { animation-delay: 0.3s; }
-.btn-hero { animation-delay: 0.6s; }
+
+.hero-subtitle { 
+  animation-delay: 0.3s; 
+}
+
+.btn-hero { 
+  animation-delay: 0.7s; 
+}
+
 @keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
+
+/* Responsive hero */
 @media (max-width: 768px) {
-  .hero-title { font-size: 2.3rem; }
-  .hero-subtitle { font-size: 1rem; }
-  .btn-hero { font-size: 1rem; padding: 12px 28px; }
+  .hero-clean {
+    min-height: 90vh;
+    padding: 80px 20px;
+  }
+  
+  .hero-clean::before,
+  .hero-clean::after {
+    display: none;
+  }
+  
+  .floating-icons {
+    display: none;
+  }
+  
+  .hero-subtitle { 
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  .btn-hero { 
+    font-size: 1rem; 
+    padding: 16px 40px; 
+  }
 }
 
 /* ===========================================
-   MISIÓN · VISIÓN · VALORES – CON ÍCONOS
+   4. MISIÓN · VISIÓN · VALORES
    =========================================== */
-.mv-horizontal {
+.mvv-section {
   width: 100%;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   font-family: 'Poppins', sans-serif;
 }
 
-/* ===== Bloques principales ===== */
-.mv-block {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  padding: 60px;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-}
-.mv-mision {
-  background: linear-gradient(135deg, #66bb6a, #43a047);
-}
-.mv-vision {
-  background: linear-gradient(135deg, #a5d6a7, #66bb6a);
-}
-
-/* ===== Contenido ===== */
-.mv-content {
-  max-width: 600px;
-  text-align: left;
-  position: relative;
-  z-index: 2;
-}
-.mv-content h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.mv-content p {
-  font-size: 1rem;
-  line-height: 1.7;
-  margin-top: 15px;
-  color: #f9f9f9;
-}
-
-/* ===== Línea decorativa ===== */
-.mv-line {
-  width: 50px;
-  height: 4px;
-  background: #cddc39;
-  border-radius: 2px;
-  margin-bottom: 15px;
-}
-
-/* ===== Íconos ===== */
-.mv-icon {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.mv-icon svg {
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  opacity: 0.9;
-}
-.mv-block:hover .mv-icon svg {
-  transform: scale(1.1) rotate(5deg);
-  opacity: 1;
-}
-
-/* ===== Valores ===== */
-.mv-valores {
-  background-color: #f8fff8;
-  color: #2e7d32;
-  text-align: center;
-  padding: 80px 20px;
-}
-.mv-valores h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.mv-valores .mv-line {
-  width: 60px;
-  height: 3px;
-  background: #66bb6a;
+.mvv-container {
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  align-items: start;
 }
-.mv-valores p {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #4a4a4a;
-  margin-top: 10px;
+
+.mvv-card {
+  background: white;
+  border-radius: 24px;
+  padding: 50px 30px 40px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.mv-valores .mv-icon svg {
-  stroke: #2e7d32;
+
+.mvv-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.mvv-icon-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -80px auto 30px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
 }
-.mv-valores:hover .mv-icon svg {
-  transform: scale(1.1);
+
+.mvv-card:nth-child(1) .mvv-icon-circle {
+  background: linear-gradient(135deg, #66bb6a, #43a047);
 }
 
-/* ===== Responsive ===== */
+.mvv-card:nth-child(2) .mvv-icon-circle {
+  background: linear-gradient(135deg, #81c784, #66bb6a);
+}
+
+.mvv-card:nth-child(3) .mvv-icon-circle {
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+}
+
+.mvv-icon-circle svg {
+  color: white;
+  stroke: white;
+}
+
+.mvv-card:hover .mvv-icon-circle {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.mvv-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.mvv-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #5a6c7d;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
-  .mv-block {
-    flex-direction: column;
-    padding: 40px 25px;
-    text-align: center;
+  .mvv-section {
+    padding: 60px 15px;
   }
-  .mv-content h2 {
-    font-size: 1.6rem;
+  
+  .mvv-container {
+    gap: 60px;
   }
-  .mv-content p {
-    font-size: 0.95rem;
+  
+  .mvv-card {
+    padding: 60px 25px 35px;
+  }
+  
+  .mvv-icon-circle {
+    width: 90px;
+    height: 90px;
+    margin-top: -75px;
+  }
+  
+  .mvv-icon-circle svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .mvv-title {
+    font-size: 1.2rem;
+  }
+  
+  .mvv-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mvv-container {
+    grid-template-columns: 1fr;
   }
 }
 
 /* ===========================================
-   5. ANIMACIONES Y UTILIDADES
+   5. SECCIÓN ACTIVIDADES
    =========================================== */
-.fade-up {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-.card-wrapper,
-.activities .card,
-.cta,
-.hero-text {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s ease-in-out;
-}
-header nav a.active {
-  font-weight: bold;
-  border-bottom: 2px solid #fff;
-  padding-bottom: 2px;
-  transition: 0.3s;
-}
-
 .activities-section {
   background: #f8fff8;
   color: #2e7d32;
@@ -404,37 +570,41 @@ header nav a.active {
   line-height: 1.6;
 }
 
+/* ===========================================
+   6. REGISTRO / CTA
+   =========================================== */
 #registro {
   background: linear-gradient(135deg, #a8e6cf 0%, #c8e6c9 40%, #f9fff9 100%);
-} 
+}
+
+/* ===========================================
+   7. SECCIÓN PRINCIPAL (con imagen de fondo)
+   =========================================== */
 .principal-section {
   position: relative;
   width: 100%;
-  height: 100vh; /* Ocupa toda la pantalla */
+  height: 100vh;
   overflow: hidden;
 }
 
-/* Imagen de fondo */
 .img-fondo img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta sin deformar */
-  filter: brightness(0.4); /* oscurece un poco para resaltar el texto */
+  object-fit: cover;
+  filter: brightness(0.4);
   z-index: 1;
 }
 
-/* Contenedor del texto y botones */
 .principal-content {
   position: relative;
-  z-index: 2; /* encima de la imagen */
+  z-index: 2;
   color: white;
   text-align: center;
 }
 
-/* Títulos */
 .principal-text h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -445,17 +615,16 @@ header nav a.active {
 .principal-text h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
-/* Botones */
 .button-group {
   margin-top: 20px;
 }
 
 a.btn-principal {
   background-color: #4caf50;
-  color: white !important ;
+  color: white !important;
   font-weight: 600;
   border: none;
   border-radius: 30px;
@@ -469,4 +638,21 @@ a.btn-principal {
 .btn-principal:hover {
   background-color: #2e7d32;
   transform: translateY(-2px);
+}
+
+/* ===========================================
+   8. ANIMACIONES Y UTILIDADES
+   =========================================== */
+.fade-up {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.card-wrapper,
+.activities .card,
+.cta,
+.hero-text {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-in-out;
 }

@@ -1,198 +1,505 @@
-/* Fondo con degradado */
+/* ===================================
+   ESTILOS BASE - REGISTRO Y LOGIN
+   =================================== */
+
 .register-section {
-  background: linear-gradient(135deg, #a7d3b0 0%, #4caf50 100%) !important;
-  min-height: 100vh !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-family: "Segoe UI", sans-serif;
-  padding: 20px !important;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f7fa 0%, #a7e9d6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Contenedor principal */
 .register-container {
-  display: flex !important;
-  background-color: #ffffff !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  max-width: 900px !important;
-  width: 100% !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    background: white;
+    border-radius: 28px;
+    overflow: hidden;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.6s ease-out;
 }
 
-/* Imagen lateral */
-.register-image {
-  flex: 1 !important;
-  background-color: #ffffff !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.register-image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-/* Formulario */
 .register-form {
-  flex: 1 !important;
-  padding: 40px 45px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  background-color: #ffffff !important;
+    padding: 50px 40px;
+    background: white;
 }
 
 .register-form h2 {
-  font-weight: 700 !important;
-  color: #1b4332 !important;
+    font-weight: 700;
+    color: #2e2e2e;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
-/* Campos flotantes */
-.form-floating > .form-control,
-.form-floating > .form-select {
-  border: 2px solid #4caf50 !important;
-  border-radius: 8px !important;
-  background-color: #f9fff9 !important;
-  color: #1b4332 !important;
-  transition: 0.3s !important;
+.form-floating, .mb-3 {
+    position: relative;
+    margin-bottom: 1.5rem;
 }
 
-.form-floating > label {
-  color: #4caf50 !important;
+.form-control,
+.form-select {
+    border: none !important;
+    border-bottom: 2px solid #ddd !important;
+    border-radius: 0 !important;
+    padding: 12px 0 12px 40px !important;
+    font-size: 1rem !important;
+    background: transparent !important;
+    color: #2e2e2e !important;
+    height: 58px !important;
+    transition: all 0.3s ease !important;
 }
 
-.form-floating > .form-control:focus,
-.form-floating > .form-select:focus {
-  border-color: #2e7d32 !important;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.4) !important;
+.form-control:focus,
+.form-select:focus {
+    border-bottom-color: #66d9a4 !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
-/* Botón */
+.form-control:focus ~ label,
+.form-control:not(:placeholder-shown) ~ label,
+.form-select:focus ~ label,
+.form-select:not(:placeholder-shown) ~ label {
+    top: -10px !important;
+    font-size: 0.8rem !important;
+    color: #66d9a4 !important;
+    font-weight: 600 !important;
+}
+
+.form-floating label {
+    position: absolute !important;
+    top: 18px !important;
+    left: 40px !important;
+    color: #aaa !important;
+    font-size: 1rem !important;
+    pointer-events: none !important;
+    transition: all 0.3s ease !important;
+    background: transparent!important;
+    padding: 0 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-weight: 600 !important;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #66d9a4;
+    font-size: 1.2rem;
+    z-index: 5;
+}
+
 .btn-register {
-  background-color: #4caf50 !important;
-  color: white !important;
-  font-weight: bold !important;
-  border: none !important;
-  padding: 12px !important;
-  border-radius: 30px !important;
-  transition: 0.3s ease !important;
+    background: linear-gradient(135deg, #66d9a4, #4ecb97) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 16px !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 10px 30px rgba(102, 217, 164, 0.3) !important;
+    width: 100% !important;
+    margin-top: 10px !important;
 }
 
 .btn-register:hover {
-  background-color: #2e7d32 !important;
-  transform: translateY(-2px) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 35px rgba(102, 217, 164, 0.4) !important;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .register-container {
-    flex-direction: column !important;
+.text-danger {
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* ==== FECHA: COLOR NEGRO ==== */
+input[type="date"] {
+    color: #2e2e2e !important;
+}
+
+input[type="date"]::-webkit-datetime-edit,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #2e2e2e !important;
+}
+
+/* ==== CONTRASEÑA: PUNTOS VISIBLES ==== */
+input[type="password"] {
+    font: large Verdana, sans-serif !important;
+    letter-spacing: 2px !important;
+}
+
+/* ==== SELECT ==== */
+.form-select {
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2366d9a4' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 6l6 6 6-6z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 12px 12px !important;
+    padding-right: 2.5rem !important;
+}
+
+/* ==== LOGIN REUTILIZA ESTILOS DEL REGISTRO ==== */
+.neo-login,
+.register-section {
+    background: linear-gradient(135deg, #e0f7fa 0%, #a7e9d6 100%) !important;
+}
+
+.neo-card,
+.register-container {
+    background: white !important;
+    border-radius: 28px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
     max-width: 500px !important;
-  }
-
-  .register-image {
-    height: 200px !important;
-  }
-
-  .register-image img {
-    object-fit: contain !important;
-  }
-
-  .register-form {
-    padding: 25px !important;
-  }
-}
-/*login*/
-
-/* Fondo general */
-.neo-login {
-  background: #cde5cf; /* verde pastel suave */
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Segoe UI", sans-serif;
+    width: 100% !important;
+    overflow: hidden !important;
 }
 
-/* Tarjeta del login */
-.neo-card {
-  background: #d7f0d8; /* tono ligeramente más claro */
-  border-radius: 20px;
-  padding: 40px 35px;
-  width: 100%;
-  max-width: 360px;
-  box-shadow:
-    8px 8px 20px rgba(163, 177, 138, 0.4),
-    -8px -8px 20px rgba(255, 255, 255, 0.6);
-  animation: fadeIn 0.6s ease-in-out;
+.neo-card .btn-neo,
+.btn-register {
+    background: linear-gradient(135deg, #66d9a4, #4ecb97) !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 10px 30px rgba(102, 217, 164, 0.3) !important;
+    transition: all 0.3s ease !important;
 }
 
-/* Icono superior */
-.neo-icon {
-  background: #4caf50;
-  color: #fff;
-  font-size: 30px;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    inset 3px 3px 8px rgba(0, 0, 0, 0.2),
-    inset -3px -3px 8px rgba(255, 255, 255, 0.4);
+.neo-card .btn-neo:hover,
+.btn-register:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 35px rgba(102, 217, 164, 0.4) !important;
 }
 
-/* Campos del formulario */
-.form-control {
-  background: #d7f0d8;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow:
-    inset 3px 3px 6px rgba(0, 0, 0, 0.15),
-    inset -3px -3px 6px rgba(255, 255, 255, 0.5);
-  transition: 0.3s ease;
-  color: #1b4332;
+/* ==== FLOTANTES IGUALES ==== */
+.neo-card .form-floating label,
+.register-form .form-floating label {
+    position: absolute;
+    top: 18px;
+    left: 40px;
+    color: #aaa;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
-.form-control:focus {
-  outline: none;
-  box-shadow:
-    inset 2px 2px 5px rgba(0, 0, 0, 0.2),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.6),
-    0 0 5px #4caf50;
+.neo-card .form-control:focus ~ label,
+.neo-card .form-control:not(:placeholder-shown) ~ label {
+    top: -10px;
+    font-size: 0.8rem;
+    color: #66d9a4;
 }
 
-/* Botón principal */
-.btn-neo {
-  background: linear-gradient(145deg, #56b35c, #3d8e41);
-  border: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 12px;
-  border-radius: 25px;
-  box-shadow:
-    4px 4px 8px rgba(0, 0, 0, 0.2),
-    -4px -4px 8px rgba(255, 255, 255, 0.4);
-  transition: 0.3s ease;
+/* ==== AUTOFILL ==== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 40px white inset !important;
+    box-shadow: 0 0 0 40px white inset !important;
+    -webkit-text-fill-color: #2e2e2e !important;
+    caret-color: #2e2e2e !important;
+    transition: background-color 9999s ease-in-out 0s !important;
 }
 
-.btn-neo:hover {
-  background: linear-gradient(145deg, #3d8e41, #56b35c);
-  transform: translateY(-2px);
+input.form-control,
+input.form-select {
+    background-color: transparent !important;
 }
 
-/* Animación de entrada */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ===================================
+   DASHBOARD DE VOLUNTARIO
+   =================================== */
+
+.volunteer-dashboard {
+    background: linear-gradient(135deg, #e0f7fa 0%, #a7e9d6 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
 }
 
-/* Checkbox */
-input[type="checkbox"] {
-  accent-color: #4caf50;
+.dashboard-header {
+    background: white;
+    border-radius: 28px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    font-weight: 700;
+    color: #2e2e2e;
+    font-size: 1.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.dashboard-nav {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.nav-tab {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tab.active {
+    color: #66d9a4;
+    border-bottom-color: #66d9a4;
+}
+
+.nav-tab:hover {
+    color: #66d9a4;
+}
+
+.content-card {
+    background: white;
+    border-radius: 28px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.6s ease-out;
+}
+
+.section-title {
+    font-weight: 700;
+    color: #2e2e2e;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: left;
+}
+
+/* Grid de 2 columnas para panel y solicitudes */
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 992px) {
+    .two-column-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mapa */
+.map-container {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.map-container h3 {
+    font-weight: 600;
+    color: #2e2e2e;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#map {
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Solicitudes cercanas */
+.nearby-requests {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.nearby-requests h3 {
+    font-weight: 600;
+    color: #2e2e2e;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.request-item {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-left: 4px solid #66d9a4;
+}
+
+.request-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(102, 217, 164, 0.2);
+}
+
+.request-item-icon {
+    width: 40px;
+    height: 40px;
+    background: #66d9a4;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.request-item-title {
+    font-weight: 600;
+    color: #2e2e2e;
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+}
+
+.request-item-date {
+    color: #888;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Tabla de actividades */
+.activities-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.activities-table thead th {
+    background: transparent;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    padding: 15px;
+    border: none;
+}
+
+.activities-table tbody tr {
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.activities-table tbody tr:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.activities-table tbody td {
+    padding: 20px 15px;
+    vertical-align: middle;
+    border: none;
+}
+
+.activities-table tbody tr td:first-child {
+    border-radius: 15px 0 0 15px;
+}
+
+.activities-table tbody tr td:last-child {
+    border-radius: 0 15px 15px 0;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-completada {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-rechazada {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-pendiente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.btn-action {
+    background: linear-gradient(135deg, #66d9a4, #4ecb97);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 217, 164, 0.2);
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 217, 164, 0.3);
+    color: white;
+}
+
+/* Formulario en modal o sección separada */
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
 }

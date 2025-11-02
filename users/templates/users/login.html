@@ -4,44 +4,63 @@
 {% block title %}Iniciar Sesión - Voluntariado Digital{% endblock %}
 
 {% block content %}
-<section class="neo-login d-flex align-items-center justify-content-center">
-  <div class="neo-card text-center shadow-lg">
-    <div class="neo-icon mx-auto mb-3">
-      <i class="bi bi-person-fill"></i>
-    </div>
+<section class="register-section d-flex align-items-center justify-content-center">
+  <div class="register-container">
+    <div class="register-form text-center">
+      <h2>Iniciar Sesión</h2>
 
-    <h2 class="mb-4 fw-bold text-success">Iniciar Sesión</h2>
+      {% if error %}
+        <div class="alert alert-danger py-2 mb-3" style="border-radius: 8px;">
+          {{ error }}
+        </div>
+      {% endif %}
 
-    {% if error %}
-      <div class="alert alert-danger py-2 mb-3" style="border-radius: 8px;">
-        {{ error }}
+     <form method="POST" autocomplete="off">
+  {% csrf_token %}
+
+  <div class="form-floating mb-3">
+    <input type="text" name="username" id="username"
+           class="form-control"
+           placeholder="Nombre de usuario"
+           autocomplete="off" required>
+    <label for="username">Nombre de usuario</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="password" name="password" id="password"
+           class="form-control"
+           placeholder="Contraseña"
+           autocomplete="new-password" required>
+    <label for="password">Contraseña</label>
+  </div>
+
+  <button type="submit" class="btn-register w-100 mt-3">Ingresar</button>
+</form>
+
+      <div class="d-flex justify-content-between mt-3 text-muted small">
+        <div>
+          <input type="checkbox" id="remember">
+          <label for="remember">Recordarme</label>
+        </div>
+        <a href="#" class="text-success">¿Olvidaste tu contraseña?</a>
       </div>
-    {% endif %}
 
-    <form method="POST">
-      {% csrf_token %}
-      <div class="form-group mb-3">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Nombre de usuario" required>
+      <div class="mt-3">
+        <p class="mb-0 text-muted">¿No tienes cuenta?
+          <a href="/register/" class="fw-bold text-success">Regístrate</a>
+        </p>
       </div>
-      <div class="form-group mb-3">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
-      </div>
-      <button type="submit" class="btn-neo w-100">Ingresar</button>
-    </form>
-
-    <div class="d-flex justify-content-between mt-3 text-muted small">
-      <div>
-        <input type="checkbox" id="remember">
-        <label for="remember">Recordarme</label>
-      </div>
-      <a href="#" class="text-success">¿Olvidaste tu contraseña?</a>
-    </div>
-
-    <div class="mt-3">
-      <p class="mb-0 text-muted">¿No tienes cuenta? 
-        <a href="/register/" class="fw-bold text-success">Regístrate</a>
-      </p>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Limpia los campos automáticamente al cargar o recargar
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    if (form) form.reset();
+  });
+</script>
 {% endblock %}

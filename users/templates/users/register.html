@@ -8,70 +8,37 @@
   <div class="register-container shadow-lg">
     
     <!-- Imagen izquierda -->
-    <div class="register-image">
+    <!--<div class="register-image">
       <img src="{% static 'assets/img/Volunter/info.jpg' %}" alt="Voluntariado">
-    </div>
+    </div> -->
 
     <!-- Formulario derecho -->
     <div class="register-form">
       <h2 class="text-center mb-4">Crea tu cuenta</h2>
 
-      <form method="POST">
+        <form method="POST" id="formRegistro" novalidate>
         {% csrf_token %}
-        
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
-          <label for="name">Nombres</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellidos" required>
-          <label for="last_name">Apellidos</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <select class="form-select" id="sex" name="sex" required>
-            <option value="">Seleccione...</option>
-            <option value="F">Femenino</option>
-            <option value="M">Masculino</option>
-            <option value="O">Otro</option>
-            
-          </select>
-          <label for="sex">Género</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="date" class="form-control" id="date" name="date" required>
-          <label for="date">Fecha de nacimiento</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="email" name="email" placeholder="Correo" required>
-          <label for="email">Correo electrónico</label>
-        </div>
-
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
-          <label for="username">Nombre de usuario</label>
-        </div>
-
-       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña" required>
-        <label for="password1">Contraseña</label>
-      </div>
-
+        {% for field in form %}
       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirmar contraseña" required>
-        <label for="password2">Confirmar contraseña</label>
+        {{ field }}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <div class="text-danger small mt-1">
+          {{ error.message|default:error }}
+        </div>
+        {% endfor %}
+        {% endif %}
       </div>
-      {% if form.errors %}
-       <div class="alert alert-danger">
-        {{ form.errors }}
-      </div>
-      {% endif %}
+      {% endfor %}
 
-        <button type="submit" class="btn-register w-100 mt-3">¡Registrarse!</button>
-      </form>
+      <button type="submit" class="btn-register w-100 mt-3">¡Registrarse!</button>
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>
+      {% endif %}
+    </form>
+
 
       <div class="text-center mt-3 text-muted">
         ¿Ya tienes cuenta? <a href="/login/" class="text-success fw-bold">Inicia sesión</a>
@@ -79,4 +46,17 @@
     </div>
   </div>
 </section>
+
+
+<script src = "{% static 'assets/js/validation/register.js' %}"></script>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
+</script>
 {% endblock %}

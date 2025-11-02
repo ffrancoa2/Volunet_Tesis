@@ -1,0 +1,147 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Panel del Voluntario{% endblock %}
+
+{% block content %}
+<div class="volunteer-dashboard">
+  <div class="container">
+
+    <div class="dashboard-header">
+      <h1>Voluntariado Digital</h1>
+      <div class="dashboard-nav">
+        <button class="nav-tab active" data-target="inicio">Inicio</button>
+        <button class="nav-tab" data-target="perfil">
+          <i class="fas fa-user"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2 class="section-title">Solicitudes de Ayuda Activas</h2>
+      <div class="nearby-requests">
+        {% if requests_volunteer %}
+          {% for req in requests_volunteer %}
+            <div class="request-item mb-3 p-3 border rounded shadow-sm">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="text-success mb-1">{{ req.title }}</h5>
+                  <p class="mb-1 text-muted">{{ req.description|truncatewords:20 }}</p>
+
+                  {% if req.category == 'dinero' %}
+                    <p class="small text-muted"><strong>Monto solicitado:</strong> ${{ req.amount }}</p>
+                  {% else %}
+                    <p class="small text-muted"><strong>Ubicación:</strong> {{ req.location|default:"No especificada" }}</p>
+                  {% endif %}
+
+                  <p class="small text-muted">
+                    <strong>Fecha:</strong> {{ req.date_start|date:"d/m/Y" }} - {{ req.date_end|date:"d/m/Y" }}
+                  </p>
+                </div>
+
+                <div class="text-end">
+                  <button class="btn btn-outline-success btn-sm mb-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#detailModal{{ req.id }}">
+                    Ver Detalle
+                  </button>
+                  <a href="{% url 'volunteers:accept_request' req.pk %}" class="btn btn-success btn-sm mb-2">Aceptar</a>
+                  <a href="{% url 'volunteers:reject_request' req.pk %}" class="btn btn-danger btn-sm">Rechazar</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="detailModal{{ req.id }}" tabindex="-1"
+                 aria-labelledby="detailModalLabel{{ req.id }}" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold" id="detailModalLabel{{ req.id }}">{{ req.title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-body p-4">
+                    <p><strong>Descripción:</strong> {{ req.description }}</p>
+                    <p><strong>Categoría:</strong> {{ req.get_category_display }}</p>
+
+                    {% if req.category == 'dinero' %}
+                      <p><strong>Número de cuenta:</strong> {{ req.account_number }}</p>
+                      <p><strong>Monto solicitado:</strong> ${{ req.amount }}</p>
+                    {% else %}
+                      <p><strong>Ubicación:</strong> {{ req.location|default:"No especificada" }}</p>
+                    {% endif %}
+
+                    <p><strong>Fecha de inicio:</strong> {{ req.date_start|date:"d/m/Y" }}</p>
+                    <p><strong>Fecha de fin:</strong> {{ req.date_end|date:"d/m/Y" }}</p>
+
+                    <p><strong>Estado:</strong>
+                      {% if req.status == 'active' %}
+                        <span class="badge bg-success">Activa</span>
+                      {% elif req.status == 'accepted' %}
+                        <span class="badge bg-primary">Aceptada</span>
+                      {% elif req.status == 'pending' %}
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                      {% elif req.status == 'closed' %}
+                        <span class="badge bg-secondary">Cerrada</span>
+                      {% endif %}
+                    </p>
+
+                    <p class="text-muted small mb-0"><strong>Publicado por:</strong> {{ req.volunteer.username }}</p>
+                  </div>
+
+                  <div class="modal-footer">
+                    <a href="{% url 'volunteers:accept_request' req.pk %}" class="btn btn-success">
+                      <i class="bi bi-check-circle"></i> Aceptar
+                    </a>
+                    <a href="{% url 'volunteers:reject_request' req.pk %}" class="btn btn-danger">
+                      <i class="bi bi-x-circle"></i> Rechazar
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-center text-muted">No hay solicitudes disponibles por el momento.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content-card mt-5">
+      <h2 class="section-title">Mis Actividades Recientes</h2>
+      <table class="activities-table">
+        <thead>
+          <tr>
+            <th>Actividad</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for help in helps %}
+            <tr>
+              <td><strong>{{ help.title }}</strong></td>
+              <td>
+                {% if help.status == 'active' %}
+                  <span class="status-badge status-activa">Activa</span>
+                {% elif help.status == 'accepted' %}
+                  <span class="status-badge status-aceptada">Aceptada</span>
+                {% elif help.status == 'pending' %}
+                  <span class="status-badge status-pendiente">Pendiente</span>
+                {% elif help.status == 'closed' %}
+                  <span class="status-badge status-rechazada">Cerrada</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2" class="text-center text-muted">No tienes actividades recientes.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
