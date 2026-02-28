@@ -1,0 +1,22 @@
+databases:
+  - name: volunet-db
+    databaseName: volunet
+    user: volunet_user
+
+services:
+  - type: web
+    name: volunet-web
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn Social.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: volunet-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.12.0
