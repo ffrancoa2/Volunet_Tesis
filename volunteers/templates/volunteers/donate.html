@@ -1,0 +1,206 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Donación - Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  .donation-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .donation-card {
+    background: white;
+    border-radius: 32px;
+    padding: 48px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    text-align: center;
+  }
+
+  .donation-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--premium-light);
+    color: var(--primary-green);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 24px;
+  }
+
+  .donation-card h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  .donation-card p.subtitle {
+    color: var(--text-light);
+    margin-bottom: 32px;
+  }
+
+  .form-donation {
+    text-align: left;
+  }
+
+  .form-group-premium {
+    margin-bottom: 24px;
+  }
+
+  .form-group-premium label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    margin-left: 4px;
+  }
+
+  .form-group-premium input,
+  .form-group-premium select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #f1f5f9;
+    border-radius: 16px;
+    background: #f8fafc;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .form-group-premium input:focus,
+  .form-group-premium select:focus {
+    border-color: var(--primary-green);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.08);
+  }
+
+  .amount-input-wrapper {
+    position: relative;
+  }
+
+  .amount-input-wrapper::before {
+    content: '$';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 800;
+    color: var(--primary-green);
+    font-size: 1.1rem;
+  }
+
+  .amount-input-wrapper input {
+    padding-left: 36px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary-green);
+  }
+
+  .btn-confirm-donation {
+    background: var(--gradient-1);
+    color: white !important;
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 12px;
+  }
+
+  .btn-confirm-donation:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+  }
+
+  .btn-cancel-donation {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-light);
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .btn-cancel-donation:hover {
+    color: var(--text-dark);
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="donation-container">
+  <div class="donation-card">
+    <div class="donation-icon">
+      <i class="bi bi-heart-fill"></i>
+    </div>
+
+    <h2>Confirmar Donación</h2>
+    <p class="subtitle">Estás apoyando el proyecto: <br><strong class="text-dark">{{ help_obj.title }}</strong></p>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} rounded-4 mb-4 text-start">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'volunteers:donate_to_help' help_obj.pk %}" class="form-donation">
+      {% csrf_token %}
+
+      <div class="form-group-premium">
+        <label>Monto a Donar</label>
+        <div class="amount-input-wrapper">
+          <input type="number" step="0.01" name="amount" id="amount" placeholder="0.00" required>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 form-group-premium">
+          <label>Institución Bancaria</label>
+          <select name="bank_name" required>
+            <option value="">Seleccione...</option>
+            <option value="Banco Pichincha">Banco Pichincha</option>
+            <option value="Banco Guayaquil">Banco Guayaquil</option>
+            <option value="Produbanco">Produbanco</option>
+            <option value="Banco del Pacífico">Banco del Pacífico</option>
+            <option value="Cooperativa JEP">Cooperativa JEP</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="col-md-6 form-group-premium">
+          <label>Tipo de Cuenta</label>
+          <select name="account_type" required>
+            <option value="">Seleccione...</option>
+            <option value="Ahorros">Ahorros</option>
+            <option value="Corriente">Corriente</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group-premium">
+        <label>Número de Cuenta</label>
+        <input type="text" name="account_number" placeholder="Ej: 0123456789" maxlength="20" required>
+      </div>
+
+      <button type="submit" class="btn-confirm-donation">
+        <i class="bi bi-shield-lock-fill me-2"></i> Procesar Donación Segura
+      </button>
+
+      <a href="{% url 'volunteers:volunteer_dashboard' %}" class="btn-cancel-donation">
+        Cancelar y Volver
+      </a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,264 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Mis Solicitudes - Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  .my-requests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .my-requests-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  .requests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .my-request-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+  }
+
+  .my-request-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-green);
+  }
+
+  .request-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .status-badge-small {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .bg-status-approved {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .bg-status-pending {
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  .bg-status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .my-request-card h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+  }
+
+  .request-description {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* Progress Analytics */
+  .progress-analytics {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .analytics-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .stat-mini {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-mini span:first-child {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+
+  .stat-mini span:last-child {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-dark);
+  }
+
+  .premium-progress-bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 10px;
+    transition: width 1s ease-out;
+  }
+
+  /* Donors List */
+  .donors-section h6 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .donor-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .donor-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    font-size: 0.8rem;
+  }
+
+  .donor-name {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .donor-amount {
+    font-weight: 700;
+    color: var(--primary-green);
+  }
+
+  .btn-create-new {
+    background: var(--gradient-1);
+    color: white !important;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="my-requests-view">
+  <div class="my-requests-header">
+    <h1>Mis Solicitudes</h1>
+    <a href="{% url 'volunteers:help' %}" class="btn-create-new">
+      <i class="bi bi-plus-lg"></i> Nueva Solicitud
+    </a>
+  </div>
+
+  {% if requests %}
+  <div class="requests-grid">
+    {% for req in requests %}
+    <article class="my-request-card">
+      <div class="request-status-row">
+        <span class="status-badge-small 
+                        {% if req.status == 'approved' %}bg-status-approved
+                        {% elif req.status == 'pending' %}bg-status-pending
+                        {% elif req.status == 'rejected' %}bg-status-rejected
+                        {% else %}bg-light text-dark{% endif %}">
+          {{ req.get_status_display }}
+        </span>
+        <span class="small text-muted fw-bold">ID #{{ req.id }}</span>
+      </div>
+
+      <h3>{{ req.title }}</h3>
+      <p class="request-description">{{ req.description|truncatewords:18 }}</p>
+
+      <div class="progress-analytics">
+        <div class="analytics-stats">
+          <div class="stat-mini">
+            <span>Solicitado</span>
+            <span>${{ req.amount|default:"0.00" }}</span>
+          </div>
+          <div class="stat-mini">
+            <span>Recaudado</span>
+            <span>${{ req.annotated_total_donations|default:0|floatformat:2 }}</span>
+          </div>
+        </div>
+
+        <div class="premium-progress-bar">
+          <div class="progress-fill" style="width: {{ req.annotated_progress|default:0|floatformat:0 }}%;"></div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <small class="fw-bold text-success">{{ req.annotated_progress|default:0|floatformat:0 }}%</small>
+          <small class="text-muted">Meta parcial</small>
+        </div>
+      </div>
+
+      <div class="donors-section">
+        <h6><i class="bi bi-people-fill"></i> Donantes recientes</h6>
+        {% if req.donations_list %}
+        <div class="donor-mini-list">
+          {% for donation in req.donations_list|slice:":3" %}
+          <div class="donor-pill">
+            <span class="donor-name">{{ donation.donor.name|default:donation.donor.username }}</span>
+            <span class="donor-amount">+${{ donation.amount|floatformat:0 }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="small text-muted italic">Aún no se registran donaciones.</p>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <img src="{% static 'assets/img/empty-requests.svg' %}" alt="Vacío" style="width: 200px; opacity: 0.5;"
+      onerror="this.src='https://cdn-icons-png.flaticon.com/512/7486/7486744.png'">
+    <h3 class="text-muted mt-4">Aún no has creado solicitudes</h3>
+    <p class="text-muted">Tus proyectos e iniciativas aparecerán aquí.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,455 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Inicio - Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  /* Welcome Header */
+  .welcome-banner {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .welcome-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .welcome-text h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  .welcome-text p {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .btn-action-primary {
+    background: var(--gradient-1);
+    color: white !important;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .btn-action-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Stats Grid */
+  .dashboard-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .stat-premium-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .stat-premium-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+  }
+
+  .stat-icon-box.green {
+    background: #ecfdf5;
+    color: #10b981;
+  }
+
+  .stat-icon-box.blue {
+    background: #eff6ff;
+    color: #3b82f6;
+  }
+
+  .stat-icon-box.amber {
+    background: #fffbeb;
+    color: #f59e0b;
+  }
+
+  .stat-info h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .stat-info p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 4px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Layout Split */
+  .dashboard-two-col {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+  }
+
+  .dashboard-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    height: 100%;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .section-header h2 i {
+    color: var(--primary-green);
+  }
+
+  .btn-view-all {
+    color: var(--primary-green);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none !important;
+    transition: gap 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .btn-view-all:hover {
+    gap: 8px;
+  }
+
+  /* Activity List */
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+  }
+
+  .activity-item:hover {
+    background: #f1f5f9;
+    transform: scale(1.01);
+  }
+
+  .activity-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .activity-badge.active {
+    background: #d1fae5;
+    color: #10b981;
+  }
+
+  .activity-badge.closed {
+    background: #dbeafe;
+    color: #3b82f6;
+  }
+
+  .activity-badge.pending {
+    background: #fef3c7;
+    color: #f59e0b;
+  }
+
+  .activity-content {
+    flex: 1;
+  }
+
+  .activity-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 2px;
+  }
+
+  .activity-meta {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+
+  /* Achievements Grid */
+  .achievements-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .achieve-card {
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .achieve-card.unlocked {
+    background: #f0fdf4;
+    border-color: #d1fae5;
+  }
+
+  .achieve-card.locked {
+    background: #f8fafc;
+    border-color: #f1f5f9;
+    opacity: 0.7;
+    filter: grayscale(1);
+  }
+
+  .achieve-icon {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #f59e0b;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .achieve-info h5 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 2px;
+  }
+
+  .achieve-info p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin: 0;
+  }
+
+  @media (max-width: 1100px) {
+    .dashboard-two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .dashboard-stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .dashboard-stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .welcome-banner {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .btn-action-primary {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+
+<!-- Welcome Banner -->
+<div class="welcome-banner">
+  <div class="welcome-text">
+    <h1>
+      {% if user.sex == "F" %}Bienvenida{% else %}Bienvenido{% endif %}, {{ user.name }}
+    </h1>
+    <p>Tu impacto hoy ayuda a construir una comunidad más fuerte.</p>
+  </div>
+  <a href="{% url 'volunteers:help' %}" class="btn-action-primary">
+    <i class="bi bi-plus-lg"></i>
+    Nueva Ayuda
+  </a>
+</div>
+
+<!-- Stats Grid -->
+<div class="dashboard-stats-grid">
+  <div class="stat-premium-card">
+    <div class="stat-icon-box green">
+      <i class="bi bi-heart-pulse-fill"></i>
+    </div>
+    <div class="stat-info">
+      <h3>{{ active_helps }}</h3>
+      <p>Ayudas Activas</p>
+    </div>
+  </div>
+  <div class="stat-premium-card">
+    <div class="stat-icon-box blue">
+      <i class="bi bi-check-all"></i>
+    </div>
+    <div class="stat-info">
+      <h3>{{ completed_helps }}</h3>
+      <p>Completadas</p>
+    </div>
+  </div>
+  <div class="stat-premium-card">
+    <div class="stat-icon-box amber">
+      <i class="bi bi-stars"></i>
+    </div>
+    <div class="stat-info">
+      <h3>{{ total_points }}</h3>
+      <p>Puntos Totales</p>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-two-col">
+  <!-- Recent Activity -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2><i class="bi bi-lightning-charge-fill"></i> Actividad Reciente</h2>
+      <a href="{% url 'volunteers:help' %}" class="btn-view-all">Ver todo <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="activity-list">
+      {% if recent_activity %}
+      {% for help in recent_activity %}
+      <div class="activity-item">
+        <div
+          class="activity-badge {% if help.status == 'active' %}active{% elif help.status == 'closed' %}closed{% else %}pending{% endif %}">
+          {% if help.status == 'active' %}
+          <i class="bi bi-heart-fill"></i>
+          {% elif help.status == 'closed' %}
+          <i class="bi bi-check-lg"></i>
+          {% else %}
+          <i class="bi bi-hourglass-split"></i>
+          {% endif %}
+        </div>
+        <div class="activity-content">
+          <h4>{{ help.title }}</h4>
+          <div class="activity-meta">
+            <span
+              class="badge {% if help.status == 'active' %}bg-success{% elif help.status == 'closed' %}bg-primary{% else %}bg-warning{% endif %} rounded-pill">
+              {{ help.get_status_display }}
+            </span>
+            <span class="ms-2">Hace {{ help.created_at|timesince }}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="text-center py-4">
+        <img src="{% static 'assets/img/empty-activity.svg' %}" alt="Sin actividad" style="width: 120px; opacity: 0.5;">
+        <p class="text-muted mt-3">Aún no tienes actividad registrada.</p>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2><i class="bi bi-trophy-fill"></i> Tus Logros</h2>
+    </div>
+
+    <div class="achievements-mini-grid">
+      <div class="achieve-card {% if completed_helps >= 1 %}unlocked{% else %}locked{% endif %}">
+        <div class="achieve-icon"><i class="bi bi-award-fill"></i></div>
+        <div class="achieve-info">
+          <h5>Primer Paso</h5>
+          <p>Completaste tu primera ayuda</p>
+        </div>
+      </div>
+      <div class="achieve-card {% if completed_helps >= 10 %}unlocked{% else %}locked{% endif %}">
+        <div class="achieve-icon"><i class="bi bi-star-fill"></i></div>
+        <div class="achieve-info">
+          <h5>Super Voluntario</h5>
+          <p>Completa 10 ayudas</p>
+        </div>
+      </div>
+      <div class="achieve-card {% if total_points >= 100 %}unlocked{% else %}locked{% endif %}">
+        <div class="achieve-icon"><i class="bi bi-gem"></i></div>
+        <div class="achieve-info">
+          <h5>Corazón Solidario</h5>
+          <p>Acumula 100 puntos</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

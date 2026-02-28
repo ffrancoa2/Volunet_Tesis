@@ -1,0 +1,330 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Detalles de Usuario - Volunet Admin{% endblock %}
+
+{% block styles %}
+<style>
+  .admin-detail-view {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* Profile Header Card */
+  .admin-user-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    position: relative;
+  }
+
+  .admin-user-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--gradient-1);
+    border-radius: 24px 24px 0 0;
+  }
+
+  .admin-avatar-lg {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 4px solid white;
+  }
+
+  .admin-user-info h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 4px;
+  }
+
+  .admin-user-info p {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .status-badge-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 12px;
+  }
+
+  .badge-verified {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .badge-pending {
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  /* Info Grid */
+  .detail-info-grid {
+    display: grid;
+    grid-template_columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .info-group-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+  }
+
+  .info-group-card h5 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #f8fafc;
+    padding-bottom: 12px;
+  }
+
+  .info-group-card h5 i {
+    color: var(--primary-green);
+  }
+
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f5f9;
+  }
+
+  .data-row:last-child {
+    border: none;
+  }
+
+  .data-label {
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .data-value {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  /* Documents */
+  .document-preview-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+  }
+
+  .doc-item {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .doc-icon {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #ef4444;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .doc-meta h6 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .doc-meta span {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  .evidence-img-admin {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 16px;
+    background: #f1f5f9;
+    margin-top: 12px;
+    border: 1px solid #e2e8f0;
+  }
+
+  @media (max-width: 768px) {
+    .admin-user-card {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .detail-info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-detail-view">
+
+  <!-- User Main Card -->
+  <div class="admin-user-card">
+    {% if user_obj.profile_image %}
+    <img src="{{ user_obj.profile_image.url }}" alt="Perfil" class="admin-avatar-lg">
+    {% else %}
+    <div class="admin-avatar-lg d-flex align-items-center justify-content-center bg-success text-white fw-bold"
+      style="font-size: 3rem;">
+      {{ user_obj.name|slice:":1" }}
+    </div>
+    {% endif %}
+
+    <div class="admin-user-info">
+      <h2>{{ user_obj.name }} {{ user_obj.last_name }}</h2>
+      <p>{{ user_obj.email }}</p>
+      {% if user_obj.is_verified %}
+      <span class="status-badge-premium badge-verified">
+        <i class="bi bi-patch-check-fill"></i> Verificado
+      </span>
+      {% else %}
+      <span class="status-badge-premium badge-pending">
+        <i class="bi bi-clock-history"></i> Validación Pendiente
+      </span>
+      <a href="{% url 'adminpanel:verify_user' user_obj.id %}"
+        class="btn btn-success rounded-pill px-4 btn-sm ms-3 fw-bold">
+        Aprobar Usuario
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Data Grid -->
+  <div class="detail-info-grid">
+    <div class="info-group-card">
+      <h5><i class="bi bi-person-badge-fill"></i> Información Legal</h5>
+      <div class="data-row">
+        <span class="data-label">Cédula / ID</span>
+        <span class="data-value">{{ user_obj.dni|default:"No registrada" }}</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Teléfono</span>
+        <span class="data-value">{{ user_obj.phone_number|default:"No registrado" }}</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Nacimiento</span>
+        <span class="data-value">{{ user_obj.date|default:"No registrada" }}</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Género</span>
+        <span class="data-value">{{ user_obj.sex|default:"No registrado" }}</span>
+      </div>
+    </div>
+
+    <div class="info-group-card">
+      <h5><i class="bi bi-activity"></i> Resumen Actividad</h5>
+      <div class="data-row">
+        <span class="data-label">Solicitudes Totales</span>
+        <span class="data-value">{{ user_obj.help_set.count }}</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Estado de Cuenta</span>
+        <span class="data-value text-success">Activo</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Miembro Desde</span>
+        <span class="data-value">{{ user_obj.date_joined|date:"d M, Y" }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation -->
+  <div class="document-preview-card">
+    <h5 class="fw-bold mb-4">Evidencias de Identidad</h5>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="doc-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="doc-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+            <div class="doc-meta">
+              <h6>Documento PDF</h6>
+              <span>Identificación oficial</span>
+            </div>
+          </div>
+          {% if user_obj.id_document_pdf %}
+          <a href="{{ user_obj.id_document_pdf.url }}" target="_blank"
+            class="btn btn-dark btn-sm rounded-pill px-3">Ver</a>
+          {% else %}
+          <span class="badge bg-light text-danger">No cargado</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="doc-item">
+          <div class="d-flex align-items-center gap-3">
+            <div class="doc-icon" style="color: #3b82f6;"><i class="bi bi-image"></i></div>
+            <div class="doc-meta">
+              <h6>Foto / Selfie</h6>
+              <span>Validación biométrica</span>
+            </div>
+          </div>
+          {% if user_obj.id_document_image %}
+          <span class="badge bg-success-subtle text-success">Cargado</span>
+          {% else %}
+          <span class="badge bg-light text-danger">No cargada</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if user_obj.id_document_image %}
+    <div class="mt-3">
+      <img src="{{ user_obj.id_document_image.url }}" class="evidence-img-admin">
+    </div>
+    {% endif %}
+
+    <div class="mt-5 d-flex gap-3">
+      <a href="{% url 'adminpanel:users_list' %}" class="btn btn-light rounded-pill px-4 fw-bold">
+        <i class="bi bi-arrow-left"></i> Volver a la lista
+      </a>
+      <button class="btn btn-outline-danger rounded-pill px-4 fw-bold ms-auto">
+        <i class="bi bi-shield-slash"></i> Suspender Cuenta
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}

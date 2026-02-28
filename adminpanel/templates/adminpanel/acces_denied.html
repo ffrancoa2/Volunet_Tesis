@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block title %}Acceso restringido{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+  <h2 class="text-danger fw-bold mb-3">🚫 Acceso restringido</h2>
+  <p>No tienes permisos para acceder a esta sección.</p>
+  <a href="{% url 'principal' %}" class="btn btn-success mt-3">Volver al inicio</a>
+</div>
+{% endblock %}

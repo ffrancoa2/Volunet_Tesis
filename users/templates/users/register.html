@@ -3,60 +3,134 @@
 
 {% block title %}Registro - Voluntariado Digital{% endblock %}
 
+{# Ocultar navbar y footer en la página de registro #}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block styles %}{% endblock %}
+
 {% block content %}
-<section class="register-section d-flex align-items-center justify-content-center">
-  <div class="register-container shadow-lg">
-    
-    <!-- Imagen izquierda -->
-    <!--<div class="register-image">
-      <img src="{% static 'assets/img/Volunter/info.jpg' %}" alt="Voluntariado">
-    </div> -->
+<section class="reg-page">
 
-    <!-- Formulario derecho -->
-    <div class="register-form">
-      <h2 class="text-center mb-4">Crea tu cuenta</h2>
+  <!-- ===== PANEL IZQUIERDO ===== -->
+  <div class="reg-left">
+    <!-- Blob decorativo -->
+    <div class="reg-blob reg-blob-1"></div>
+    <div class="reg-blob reg-blob-2"></div>
 
-        <form method="POST" id="formRegistro" novalidate>
-        {% csrf_token %}
-        {% for field in form %}
-      <div class="form-floating mb-3">
-        {{ field }}
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {% if field.errors %}
-        {% for error in field.errors %}
-        <div class="text-danger small mt-1">
-          {{ error.message|default:error }}
-        </div>
-        {% endfor %}
-        {% endif %}
+    <div class="reg-brand">
+      <div class="reg-logo">
+        <i class="bi bi-heart-fill"></i>
       </div>
-      {% endfor %}
+      <h1>Únete a<br>la comunidad</h1>
+      <p class="reg-brand-sub">Comienza a hacer la diferencia<br>desde hoy mismo</p>
+    </div>
 
-      <button type="submit" class="btn-register w-100 mt-3">¡Registrarse!</button>
+    <div class="reg-features">
+      <div class="reg-feature">
+        <div class="reg-feature-icon"><i class="bi bi-people-fill"></i></div>
+        <div>
+          <strong>Conecta con causas reales</strong>
+          <span>Encuentra proyectos que coincidan con tus valores</span>
+        </div>
+      </div>
+      <div class="reg-feature">
+        <div class="reg-feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+        <div>
+          <strong>Genera impacto medible</strong>
+          <span>Cada acción que tomes transforma tu comunidad</span>
+        </div>
+      </div>
+      <div class="reg-feature">
+        <div class="reg-feature-icon"><i class="bi bi-award-fill"></i></div>
+        <div>
+          <strong>Crece profesionalmente</strong>
+          <span>Gana experiencia y construye tu perfil social</span>
+        </div>
+      </div>
+    </div>
 
-      {% if form.non_field_errors %}
-        <div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>
-      {% endif %}
-    </form>
-
-
-      <div class="text-center mt-3 text-muted">
-        ¿Ya tienes cuenta? <a href="/login/" class="text-success fw-bold">Inicia sesión</a>
+    <div class="reg-stats-row">
+      <div class="reg-stat">
+        <span class="reg-stat-num">1,500+</span>
+        <span class="reg-stat-lbl">Voluntarios</span>
+      </div>
+      <div class="reg-stat-sep"></div>
+      <div class="reg-stat">
+        <span class="reg-stat-num">250+</span>
+        <span class="reg-stat-lbl">Proyectos</span>
+      </div>
+      <div class="reg-stat-sep"></div>
+      <div class="reg-stat">
+        <span class="reg-stat-num">12+</span>
+        <span class="reg-stat-lbl">Ciudades</span>
       </div>
     </div>
   </div>
+
+  <!-- ===== PANEL DERECHO ===== -->
+  <div class="reg-right">
+    <div class="reg-form-card">
+
+      <div class="reg-form-header">
+        <h2>Crea tu cuenta</h2>
+        <p>Completa el formulario para unirte a Voluntariado Digital</p>
+      </div>
+
+      {% if form.non_field_errors %}
+      <div class="reg-alert reg-alert-error">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+
+      <form method="POST" id="formRegistro" enctype="multipart/form-data" novalidate class="reg-form">
+        {% csrf_token %}
+
+        <div class="reg-fields-grid">
+          {% for field in form %}
+          <div
+            class="reg-field {% if field.name == 'email' or field.name == 'password1' or field.name == 'password2' %}reg-field--full{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="reg-input-wrap">
+              {{ field }}
+            </div>
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <div class="reg-error">
+              <i class="bi bi-exclamation-circle"></i>
+              {{ error.message|default:error }}
+            </div>
+            {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="reg-btn">
+          <i class="bi bi-person-plus-fill"></i>
+          Crear mi cuenta
+        </button>
+      </form>
+
+      <div class="reg-login-link">
+        ¿Ya tienes cuenta?
+        <a href="{% url 'login' %}">Inicia sesión</a>
+      </div>
+
+    </div>
+  </div>
+
 </section>
-
-
-<script src = "{% static 'assets/js/validation/register.js' %}"></script>
-
-
 {% endblock %}
 
-{% block extra_js %}
+{% block scripts %}
+<script src="{% static 'assets/js/validation/register.js' %}"></script>
 <script>
-if (window.history.replaceState) {
+  if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
-}
+  }
 </script>
 {% endblock %}

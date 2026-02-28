@@ -1,0 +1,215 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Usuarios - Volunet Admin{% endblock %}
+
+{% block styles %}
+<style>
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .list-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  .premium-list-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .table-premium-admin {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+
+  .table-premium-admin th {
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .table-premium-admin tr td {
+    background: #f8fafc;
+    padding: 16px 20px;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+  }
+
+  .table-premium-admin tr td:first-child {
+    border-radius: 16px 0 0 16px;
+  }
+
+  .table-premium-admin tr td:last-child {
+    border-radius: 0 16px 16px 0;
+  }
+
+  .table-premium-admin tr:hover td {
+    background: #f1f5f9;
+    transform: scale(1.005);
+  }
+
+  .user-avatar-list {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+  }
+
+  .user-name-cell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-name-cell .name {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .user-name-cell .email {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  .badge-premium {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .badge-verified {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .badge-pending {
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  .btn-action-sm {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+
+  .btn-profile {
+    background: #eff6ff;
+    color: #3b82f6;
+  }
+
+  .btn-profile:hover {
+    background: #dbeafe;
+  }
+
+  .btn-verify {
+    background: #ecfdf5;
+    color: #10b981;
+  }
+
+  .btn-verify:hover {
+    background: #d1fae5;
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-users-list">
+  <div class="list-header">
+    <h2>Gestión de Usuarios</h2>
+    <span class="text-muted fw-bold">{{ users|length }} Usuarios en total</span>
+  </div>
+
+  <div class="premium-list-card">
+    <div class="table-responsive">
+      <table class="table-premium-admin">
+        <thead>
+          <tr>
+            <th>Identidad</th>
+            <th>Contacto</th>
+            <th>Estado</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                {% if u.profile_image %}
+                <img src="{{ u.profile_image.url }}" class="user-avatar-list">
+                {% else %}
+                <div
+                  class="user-avatar-list d-flex align-items-center justify-content-center bg-success text-white fw-bold">
+                  {{ u.name|slice:":1" }}
+                </div>
+                {% endif %}
+                <div class="user-name-cell">
+                  <span class="name">{{ u.name }} {{ u.last_name }}</span>
+                  <span class="small text-muted">ID: {{ u.dni|default:"---" }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="user-name-cell">
+                <span class="email"><i class="bi bi-envelope me-1"></i> {{ u.email }}</span>
+                <span class="small text-muted"><i class="bi bi-phone me-1"></i> {{ u.phone_number|default:"No
+                  registrado" }}</span>
+              </div>
+            </td>
+            <td>
+              {% if u.is_verified %}
+              <span class="badge-premium badge-verified"><i class="bi bi-patch-check-fill me-1"></i> Verificado</span>
+              {% else %}
+              <span class="badge-premium badge-pending"><i class="bi bi-clock-history me-1"></i> Pendiente</span>
+              {% endif %}
+            </td>
+            <td class="text-end">
+              <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'adminpanel:user_detail' u.id %}" class="btn-action-sm btn-profile">
+                  <i class="bi bi-eye-fill"></i> Detalles
+                </a>
+                {% if not u.is_verified %}
+                <a href="{% url 'adminpanel:verify_user' u.id %}" class="btn-action-sm btn-verify">
+                  <i class="bi bi-check2-circle"></i> Validar
+                </a>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center py-5 text-muted">No se encontraron usuarios registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

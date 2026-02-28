@@ -1,0 +1,109 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil Admin - Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  .admin-edit-view {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .edit-card-premium {
+    background: white;
+    border-radius: 32px;
+    padding: 48px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+  }
+
+  .edit-card-premium h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .form-admin-edit p {
+    margin-bottom: 24px;
+  }
+
+  .form-admin-edit label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    margin-left: 4px;
+  }
+
+  .form-admin-edit input,
+  .form-admin-edit select,
+  .form-admin-edit textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #f1f5f9;
+    border-radius: 16px;
+    background: #f8fafc;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .form-admin-edit input:focus {
+    border-color: var(--primary-green);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.08);
+  }
+
+  .edit-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .btn-save-admin {
+    flex: 2;
+    background: var(--gradient-1);
+    color: white !important;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+  }
+
+  .btn-cancel-admin {
+    flex: 1;
+    background: #f1f5f9;
+    color: var(--text-dark) !important;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none !important;
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-edit-view">
+  <div class="edit-card-premium">
+    <h2>Editar Datos de Administrador</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="form-admin-edit">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="edit-actions">
+        <a href="{% url 'adminpanel:admin_profile' %}" class="btn-cancel-admin">Cancelar</a>
+        <button type="submit" class="btn-save-admin">
+          <i class="bi bi-check2-circle me-1"></i> Guardar Cambios
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

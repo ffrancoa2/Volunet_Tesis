@@ -1,45 +1,96 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Edit Help Request - Volunteering Platform{% endblock %}
+{% block title %}Editar Solicitud de Ayuda - Volunet{% endblock %}
 
 {% block content %}
 <section class="container py-5">
-  <div class="col-md-6 mx-auto">
+  <div class="col-md-8 mx-auto">
     <div class="card shadow-sm p-4">
-      <h3 class="text-success fw-bold text-center mb-4">Edit Help Request</h3>
+      <h3 class="text-success fw-bold text-center mb-4">Editar Solicitud de Ayuda</h3>
 
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
         <div class="mb-3">
-          <label for="id_title" class="form-label">Title</label>
+          <label class="form-label">Título</label>
           {{ form.title }}
         </div>
 
         <div class="mb-3">
-          <label for="id_description" class="form-label">Description</label>
+          <label class="form-label">Descripción</label>
           {{ form.description }}
         </div>
 
         <div class="mb-3">
-          <label for="id_category" class="form-label">Category</label>
+          <label class="form-label">Categoría</label>
           {{ form.category }}
         </div>
 
         <div class="mb-3">
-          <label for="id_location" class="form-label">Location</label>
+          <label class="form-label">Ubicación</label>
           {{ form.location }}
         </div>
 
-        <div class="mb-3">
-          <label for="id_date" class="form-label">Date</label>
-          {{ form.date }}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Fecha inicio</label>
+            {{ form.date_start }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Fecha fin</label>
+            {{ form.date_end }}
+          </div>
         </div>
 
-        <button type="submit" class="btn btn-success w-100">Save Changes</button>
-        <a href="{% url 'volunteers:help' %}" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+        <div class="mb-3">
+          <label class="form-label">Número de contacto</label>
+          {{ form.contact_number }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Cuenta bancaria</label>
+          {{ form.bank_account }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Monto solicitado</label>
+          {{ form.amount }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Documento PDF</label>
+          {{ form.evidence_pdf }}
+          {% if form.instance.evidence_pdf %}
+            <p class="mt-2">Archivo actual:
+              <a href="{{ form.instance.evidence_pdf.url }}" target="_blank" class="text-success fw-semibold">Ver PDF</a>
+            </p>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Fotografía o evidencia</label>
+          {{ form.evidence_image }}
+          {% if form.instance.evidence_image %}
+            <div class="mt-2">
+              <img src="{{ form.instance.evidence_image.url }}" class="img-fluid rounded shadow-sm" style="max-width: 300px;">
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Copia de cédula</label>
+          {{ form.dni_copy }}
+          {% if form.instance.dni_copy %}
+            <div class="mt-2">
+              <img src="{{ form.instance.dni_copy.url }}" class="img-fluid rounded shadow-sm" style="max-width: 300px;">
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Guardar Cambios</button>
+        <a href="{% url 'volunteers:help' %}" class="btn btn-outline-secondary w-100 mt-2">Cancelar</a>
       </form>
     </div>
   </div>

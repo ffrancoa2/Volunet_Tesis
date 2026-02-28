@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Notificación Volunet</title>
+  <style>
+    body { background-color: #f7f9fa; font-family: 'Segoe UI', sans-serif; color: #333; padding: 20px; }
+    .email-container { background: #fff; border-radius: 12px; max-width: 600px; margin: auto; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    h2 { color: #16a34a; }
+    .btn { background: #16a34a; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
+    .footer { font-size: 13px; color: #777; margin-top: 25px; }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h2>¡Hola {{ name }}!</h2>
+    <p>{{ message }}</p>
+    {% if action_url %}
+      <p style="margin-top:20px;">
+        <a href="{{ action_url }}" class="btn">Ver solicitud</a>
+      </p>
+    {% endif %}
+    <p class="footer">Gracias por confiar en <strong>Volunet 💚</strong></p>
+  </div>
+</body>
+</html>

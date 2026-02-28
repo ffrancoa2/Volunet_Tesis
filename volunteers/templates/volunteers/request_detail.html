@@ -1,0 +1,233 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Detalle de Solicitud - Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  .detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .detail-card {
+    background: white;
+    border-radius: 32px;
+    padding: 48px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .detail-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: var(--gradient-1);
+  }
+
+  .detail-header {
+    margin-bottom: 32px;
+  }
+
+  .detail-category {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--premium-light);
+    color: var(--primary-green);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .detail-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .detail-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 24px;
+    background: #f8fafc;
+    border-radius: 20px;
+    border: 1px solid #f1f5f9;
+  }
+
+  .meta-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-box span:first-child {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
+
+  .meta-box span:last-child {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .detail-content h4 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+  }
+
+  .detail-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 40px;
+  }
+
+  .evidence-section {
+    margin-bottom: 40px;
+  }
+
+  .evidence-img-large {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .detail-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 32px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .btn-donate-premium {
+    background: var(--gradient-1);
+    color: white !important;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .btn-donate-premium:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+  }
+
+  .btn-back-premium {
+    padding: 16px 32px;
+    border-radius: 50px;
+    color: var(--text-light);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+
+  .btn-back-premium:hover {
+    background: #f1f5f9;
+    color: var(--text-dark);
+  }
+
+  @media (max-width: 600px) {
+    .detail-card {
+      padding: 32px 24px;
+    }
+
+    .detail-header h1 {
+      font-size: 1.8rem;
+    }
+
+    .detail-meta-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .detail-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-donate-premium {
+      justify-content: center;
+    }
+
+    .btn-back-premium {
+      text-align: center;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="detail-container">
+  <div class="detail-card">
+    <div class="detail-header">
+      <span class="detail-category">{{ solicitud.get_category_display }}</span>
+      <h1>{{ solicitud.title }}</h1>
+    </div>
+
+    <div class="detail-meta-grid">
+      <div class="meta-box">
+        <span><i class="bi bi-geo-alt me-1"></i> Ubicación</span>
+        <span>{{ solicitud.location|default:"No especificada" }}</span>
+      </div>
+      <div class="meta-box">
+        <span><i class="bi bi-calendar-event me-1"></i> Periodo</span>
+        <span>{{ solicitud.date_start|date:"d M" }} - {{ solicitud.date_end|date:"d M, Y" }}</span>
+      </div>
+      <div class="meta-box">
+        <span><i class="bi bi-cash-stack me-1"></i> Monto</span>
+        <span>${{ solicitud.amount|default:"No requerido" }}</span>
+      </div>
+    </div>
+
+    <div class="detail-content">
+      <h4>Descripción del Caso</h4>
+      <p class="detail-description">{{ solicitud.description }}</p>
+    </div>
+
+    {% if solicitud.evidence_image %}
+    <div class="evidence-section">
+      <h4>Evidencia y Respaldo</h4>
+      <img src="{{ solicitud.evidence_image.url }}" class="evidence-img-large" alt="Evidencia">
+    </div>
+    {% endif %}
+
+    <div class="detail-footer">
+      <form method="POST" action="{% url 'volunteers:donate_to_help' solicitud.pk %}" class="flex-grow-1">
+        {% csrf_token %}
+        <button type="submit" class="btn-donate-premium w-100">
+          <i class="bi bi-heart-fill"></i> Donar / Participar Ahora
+        </button>
+      </form>
+      <a href="{% url 'volunteers:volunteer_dashboard' %}" class="btn-back-premium">
+        <i class="bi bi-arrow-left"></i> Volver al Explorador
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

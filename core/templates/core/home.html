@@ -5,134 +5,264 @@
 
 {% block content %}
 
-<!-- Hero principal -->
-<section id="hero" class="hero-clean d-flex align-items-center justify-content-center text-center">
-  <div class="container">
-    <h1 class="hero-title">
-      Conectamos <span class="highlight">personas</span> para transformar comunidades.
-    </h1>
-    <p class="hero-subtitle mt-4">
-      Sé parte de nuestra red de voluntariado digital.<br>
-      Crea impacto real desde donde estés.
-    </p>
-    <a href="#" class="btn-hero mt-5">Únete ahora</a>
+<!-- ===================== HERO ===================== -->
+<section class="home-hero">
+  <!-- Fondo animado -->
+  <div class="home-hero-bg">
+    <div class="home-blob home-blob-a"></div>
+    <div class="home-blob home-blob-b"></div>
+    <div class="home-blob home-blob-c"></div>
   </div>
-  
-  <!-- Iconos flotantes decorativos - ESTO FALTABA -->
-  <div class="floating-icons">
-    <svg class="float-icon icon-1" width="70" height="70">
-      <use href="#icon-heart" stroke="#4caf50" stroke-width="2" fill="none"/>
-    </svg>
-    
-    <svg class="float-icon icon-2" width="65" height="65">
-      <use href="#icon-smile" stroke="#66bb6a" stroke-width="2" fill="none"/>
-    </svg>
-    
-    <svg class="float-icon icon-3" width="75" height="75">
-      <use href="#icon-people" stroke="#81c784" stroke-width="2" fill="none"/>
-    </svg>
-    
-    <svg class="float-icon icon-4" width="60" height="60">
-      <use href="#icon-star" stroke="#a5d6a7" stroke-width="2" fill="none"/>
-    </svg>
+
+  <div class="home-hero-inner">
+    <!-- Texto principal -->
+    <div class="home-hero-text">
+      <span class="home-badge">
+        <i class="bi bi-star-fill"></i>
+        Plataforma #1 de voluntariado digital
+      </span>
+
+      <h1 class="home-hero-title">
+        Conectamos <span class="home-gradient-text">personas</span><br>
+        para transformar<br>comunidades
+      </h1>
+
+      <p class="home-hero-sub">
+        Sé parte de nuestra red de voluntariado digital.
+        Crea impacto real desde donde estés, a cualquier hora.
+      </p>
+
+      <div class="home-hero-actions">
+        <a href="{% url 'register' %}" class="home-btn-primary">
+          <i class="bi bi-rocket-takeoff"></i>
+          Únete ahora
+        </a>
+        <a href="#actividades" class="home-btn-outline">
+          Explorar actividades
+          <i class="bi bi-arrow-down"></i>
+        </a>
+      </div>
+
+      <!-- Avatares + stat -->
+      <div class="home-social-proof">
+        <div class="home-avatars">
+          <div class="home-avatar" style="background: #10b981;">A</div>
+          <div class="home-avatar" style="background: #059669;">B</div>
+          <div class="home-avatar" style="background: #34d399;">C</div>
+          <div class="home-avatar" style="background: #6ee7b7; color: #064e3b;">+</div>
+        </div>
+        <p><strong>+1,500</strong> voluntarios ya forman parte</p>
+      </div>
+    </div>
+
+    <!-- Cards visuales -->
+    <div class="home-hero-visual">
+      <!-- Card central -->
+      <div class="home-impact-card">
+        <div class="home-impact-glow"></div>
+        <div class="home-impact-icon">
+          <i class="bi bi-heart-fill"></i>
+        </div>
+        <h3>Impacto real</h3>
+        <p>Cada acción cuenta y transforma vidas en tu comunidad</p>
+        <div class="home-impact-stats">
+          <div class="home-impact-stat">
+            <span class="home-impact-num">1,500+</span>
+            <span>Voluntarios</span>
+          </div>
+          <div class="home-impact-stat">
+            <span class="home-impact-num">250+</span>
+            <span>Proyectos</span>
+          </div>
+          <div class="home-impact-stat">
+            <span class="home-impact-num">12+</span>
+            <span>Ciudades</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card flotante 1 -->
+      <div class="home-float-card home-float-1">
+        <div class="home-float-icon">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div>
+          <strong>Meta cumplida</strong>
+          <small>50 voluntarios inscritos hoy</small>
+        </div>
+      </div>
+
+      <!-- Card flotante 2 -->
+      <div class="home-float-card home-float-2">
+        <div class="home-float-icon home-float-icon-amber">
+          <i class="bi bi-award-fill"></i>
+        </div>
+        <div>
+          <strong>+250 proyectos</strong>
+          <small>Completados exitosamente</small>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- resto del código igual... -->
-
-
-<br>
-<!-- Sección Misión / Visión / Valores -->
-<section id="mision-vision" class="mvv-section">
-  <div class="mvv-container">
-    <!-- Misión -->
-    <div class="mvv-card">
-      <div class="mvv-icon-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-        </svg>
-      </div>
-      <h3 class="mvv-title">MISSION</h3>
-      <p class="mvv-text">Conectar a personas y comunidades mediante una plataforma digital que promueva la solidaridad y la participación ciudadana.</p>
+<!-- ===================== STATS ===================== -->
+<section class="home-stats-section">
+  <div class="home-stats-inner">
+    <div class="home-stat-item">
+      <span class="home-stat-num">1,500+</span>
+      <span class="home-stat-label">Voluntarios activos</span>
     </div>
-
-    <!-- Visión -->
-    <div class="mvv-card">
-      <div class="mvv-icon-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-        </svg>
-      </div>
-      <h3 class="mvv-title">VISION</h3>
-      <p class="mvv-text">Ser la plataforma líder de voluntariado digital en América Latina, reconocida por su impacto social y uso ético de la tecnología.</p>
+    <div class="home-stat-divider"></div>
+    <div class="home-stat-item">
+      <span class="home-stat-num">250+</span>
+      <span class="home-stat-label">Proyectos completados</span>
     </div>
-
-    <!-- Valores -->
-    <div class="mvv-card">
-      <div class="mvv-icon-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-        </svg>
-      </div>
-      <h3 class="mvv-title">VALUES</h3>
-      <p class="mvv-text">Solidaridad · Transparencia · Innovación · Compromiso · Confianza</p>
+    <div class="home-stat-divider"></div>
+    <div class="home-stat-item">
+      <span class="home-stat-num">12+</span>
+      <span class="home-stat-label">Ciudades alcanzadas</span>
+    </div>
+    <div class="home-stat-divider"></div>
+    <div class="home-stat-item">
+      <span class="home-stat-num">98%</span>
+      <span class="home-stat-label">Satisfacción</span>
     </div>
   </div>
 </section>
 
+<!-- ===================== MISIÓN / VISIÓN / VALORES ===================== -->
+<section class="home-mvv-section">
+  <div class="home-section-inner">
+    <div class="home-section-header">
+      <span class="home-section-tag">Nuestra esencia</span>
+      <h2>Misión, Visión y Valores</h2>
+      <p>Los pilares que guían nuestro compromiso con la comunidad</p>
+    </div>
 
-<!-- Sección Actividades -->
-<section id="actividades" class="activities-section py-5">
-  <div class="container text-center">
-    <h2 class="mb-4">Actividades</h2>
-    <p class="section-subtitle mb-5">Explora las formas en que puedes participar y crear impacto real.</p>
+    <div class="home-mvv-grid">
+      <div class="home-mvv-card home-mvv-card--mission">
+        <div class="home-mvv-icon">
+          <i class="bi bi-bullseye"></i>
+        </div>
+        <h3>Misión</h3>
+        <p>Conectar a personas y comunidades mediante una plataforma digital que promueva la solidaridad y la
+          participación ciudadana activa.</p>
+        <div class="home-mvv-accent"></div>
+      </div>
 
-    <div class="activities-grid">
-      <div class="activity-card">
-        <div class="icon">🤝</div>
+      <div class="home-mvv-card home-mvv-card--vision">
+        <div class="home-mvv-icon">
+          <i class="bi bi-eye-fill"></i>
+        </div>
+        <h3>Visión</h3>
+        <p>Ser la plataforma líder de voluntariado digital en América Latina, reconocida por su impacto social y uso
+          ético de la tecnología.</p>
+        <div class="home-mvv-accent"></div>
+      </div>
+
+      <div class="home-mvv-card home-mvv-card--values">
+        <div class="home-mvv-icon">
+          <i class="bi bi-gem"></i>
+        </div>
+        <h3>Valores</h3>
+        <div class="home-values-pills">
+          <span>Solidaridad</span>
+          <span>Transparencia</span>
+          <span>Innovación</span>
+          <span>Compromiso</span>
+          <span>Confianza</span>
+        </div>
+        <div class="home-mvv-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ACTIVIDADES ===================== -->
+<section id="actividades" class="home-activities-section">
+  <div class="home-section-inner">
+    <div class="home-section-header">
+      <span class="home-section-tag">Cómo puedes ayudar</span>
+      <h2>Actividades de Voluntariado</h2>
+      <p>Explora las formas en que puedes participar y crear impacto real en tu comunidad</p>
+    </div>
+
+    <div class="home-activities-grid">
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#10b981,#059669);">
+          <i class="bi bi-people-fill"></i>
+        </div>
         <h3>Voluntariado en línea</h3>
         <p>Apoya causas sociales a través de mentorías, asesorías o acompañamiento digital.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
       </div>
 
-      <div class="activity-card">
-         <div class="icon">👕</div>
-         <h3>Donación de Ropa</h3>
-         <p>
-         Participa recolectando y organizando prendas en buen estado para personas y comunidades que más lo necesitan.
-         </p>
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#ec4899,#be185d);">
+          <i class="bi bi-bag-heart-fill"></i>
         </div>
-
-      <div class="activity-card">
-        <div class="icon">🌱</div>
-        <h3>Proyectos sostenibles</h3>
-        <p>Colabora en iniciativas ecológicas y de desarrollo sostenible.</p>
+        <h3>Donación de Ropa</h3>
+        <p>Participa recolectando y organizando prendas en buen estado para quienes más lo necesitan.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
       </div>
 
-      <div class="activity-card">
-        <div class="icon">📚</div>
-        <h3>Educación solidaria</h3>
-        <p>Comparte tus conocimientos mediante cursos, charlas y recursos educativos.</p>
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#22c55e,#15803d);">
+          <i class="bi bi-tree-fill"></i>
+        </div>
+        <h3>Proyectos Sostenibles</h3>
+        <p>Colabora en iniciativas ecológicas y de desarrollo sostenible para un mejor futuro.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
       </div>
-      <div class="activity-card">
-        <div class="icon">🏥</div>
-        <h3>Salud comunitaria</h3>
-        <p>Participa en campañas de salud, bienestar y apoyo psicológico.</p>
+
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#f59e0b,#d97706);">
+          <i class="bi bi-book-fill"></i>
+        </div>
+        <h3>Educación Solidaria</h3>
+        <p>Comparte tus conocimientos mediante cursos, charlas y recursos educativos gratuitos.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
+      </div>
+
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#ef4444,#b91c1c);">
+          <i class="bi bi-heart-pulse-fill"></i>
+        </div>
+        <h3>Salud Comunitaria</h3>
+        <p>Participa en campañas de salud, bienestar y apoyo psicológico en tu comunidad.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
+      </div>
+
+      <div class="home-activity-card">
+        <div class="home-activity-icon" style="background: linear-gradient(135deg,#8b5cf6,#6d28d9);">
+          <i class="bi bi-palette-fill"></i>
+        </div>
+        <h3>Arte y Cultura</h3>
+        <p>Fomenta la inclusión social a través de actividades artísticas y culturales diversas.</p>
+        <a href="{% url 'register' %}" class="home-activity-link">Participar <i class="bi bi-arrow-right"></i></a>
+      </div>
     </div>
-        <div class="activity-card">
-            <div class="icon">🎨</div>
-            <h3>Arte y cultura</h3>
-            <p>Fomenta la inclusión social a través de actividades artísticas y culturales.</p>
-        </div>
   </div>
 </section>
 
-
-<!-- Llamado a la acción -->
-<section id="registro" class="regsiter-section text-center py-5">
-  <div class="container">
-    <h2 class="fw-bold mb-3">Sé parte del cambio</h2>
-    <p class="mb-4">Regístrate como voluntario o publica tu iniciativa social.</p>
-    <a href="{% url 'register'%}" class="btn btn-light btn-lg px-4 py-2 rounded-pill">Comenzar</a>
+<!-- ===================== CTA ===================== -->
+<section class="home-cta-section">
+  <div class="home-cta-glow-1"></div>
+  <div class="home-cta-glow-2"></div>
+  <div class="home-cta-inner">
+    <span class="home-cta-tag">¿Listo para empezar?</span>
+    <h2>Sé parte del cambio</h2>
+    <p>Regístrate como voluntario y únete a miles de personas que ya están construyendo un mundo mejor.</p>
+    <div class="home-cta-actions">
+      <a href="{% url 'register' %}" class="home-btn-cta">
+        <i class="bi bi-person-plus-fill"></i>
+        Crear mi cuenta gratis
+      </a>
+      <a href="{% url 'login' %}" class="home-btn-cta-ghost">
+        Ya tengo cuenta
+      </a>
+    </div>
   </div>
 </section>
 

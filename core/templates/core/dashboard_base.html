@@ -1,0 +1,155 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard_premium.css' %}">
+{% endblock %}
+
+{% block title %}Dashboard - Voluntariado Digital{% endblock %}
+
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block header %}{% endblock %}
+{% block mobile_menu %}{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <!-- Sidebar Lateral -->
+  <aside class="dashboard-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo-icon">
+        <i class="bi bi-heart-fill"></i>
+      </div>
+      <span class="sidebar-text">Volunet</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      {% if user.is_staff %}
+      <a href="{% url 'adminpanel:admin_dashboard' %}"
+        class="nav-item {% if request.path == '/adminpanel/dashboard/' %}active{% endif %}">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span class="sidebar-text">Panel Control</span>
+      </a>
+      <a href="{% url 'adminpanel:users_list' %}" class="nav-item {% if 'users' in request.path %}active{% endif %}">
+        <i class="bi bi-people-fill"></i>
+        <span class="sidebar-text">Gestión Usuarios</span>
+      </a>
+      <a href="{% url 'adminpanel:helps_list' %}" class="nav-item {% if 'helps' in request.path %}active{% endif %}">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span class="sidebar-text">Solicitudes</span>
+      </a>
+      <a href="{% url 'adminpanel:admin_profile' %}"
+        class="nav-item {% if 'profile' in request.path %}active{% endif %}">
+        <i class="bi bi-person-badge-fill"></i>
+        <span class="sidebar-text">Mi Perfil</span>
+      </a>
+      {% else %}
+      <a href="{% url 'principal' %}" class="nav-item {% if request.path == '/users/principal/' %}active{% endif %}">
+        <i class="bi bi-house-door-fill"></i>
+        <span class="sidebar-text">Inicio</span>
+      </a>
+      <a href="{% url 'volunteers:help' %}"
+        class="nav-item {% if 'volunteers/help/' in request.path %}active{% endif %}">
+        <i class="bi bi-hand-thumbs-up-fill"></i>
+        <span class="sidebar-text">Mis Ayudas</span>
+      </a>
+      <a href="{% url 'volunteers:volunteer_dashboard' %}"
+        class="nav-item {% if 'volunteer_dashboard' in request.path %}active{% endif %}">
+        <i class="bi bi-megaphone-fill"></i>
+        <span class="sidebar-text">Explorar</span>
+      </a>
+      <a href="{% url 'volunteers:my_requests' %}"
+        class="nav-item {% if 'my-requests' in request.path %}active{% endif %}">
+        <i class="bi bi-clipboard-check-fill"></i>
+        <span class="sidebar-text">Mis Solicitudes</span>
+      </a>
+      <a href="{% url 'users:profile' %}" class="nav-item {% if 'profile' in request.path %}active{% endif %}">
+        <i class="bi bi-person-fill-gear"></i>
+        <span class="sidebar-text">Mi Perfil</span>
+      </a>
+      {% endif %}
+
+    </nav>
+    <div class="sidebar-footer">
+      <a href="{% url 'users:logout' %}" class="nav-item logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="sidebar-text">Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Área Principal -->
+  <main class="dashboard-main" id="main-content">
+    <!-- Topbar -->
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="toggleSidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <h2 class="topbar-title">
+          {% if user.is_staff %}Panel de Administración{% else %}Dashboard Voluntario{% endif %}
+        </h2>
+      </div>
+
+      <div class="topbar-right">
+        <a href="{% url 'users:profile' %}" class="user-profile">
+          <span class="user-name d-none d-sm-inline">{{ user.name }}</span>
+          {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}" alt="Avatar" class="user-avatar">
+          {% else %}
+          <div class="user-avatar d-flex align-items-center justify-content-center bg-success text-white">
+            {{ user.name|slice:":1" }}
+          </div>
+          {% endif %}
+        </a>
+        <a href="{% url 'users:logout' %}" class="btn-logout-topbar ms-2" title="Cerrar Sesión">
+          <i class="bi bi-box-arrow-right"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <section class="dashboard-content">
+      {% block dashboard_content %}
+      {% endblock %}
+    </section>
+  </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('main-content');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isMobile = window.innerWidth < 992;
+      
+      if (!isMobile) {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+      } else {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+      }
+    });
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    };
+
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth < 992 && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+        closeSidebar();
+      }
+    });
+  }
+</script>
+{% endblock %}

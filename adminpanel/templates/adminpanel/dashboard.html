@@ -1,0 +1,298 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard - Volunet{% block title_suffix %}{% endblock %}{% endblock %}
+
+{% block styles %}
+<style>
+  .admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .admin-stat-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-stat-card i {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  .bg-light-green {
+    background: #ecfdf5;
+    color: #10b981;
+  }
+
+  .bg-light-blue {
+    background: #eff6ff;
+    color: #3b82f6;
+  }
+
+  .bg-light-amber {
+    background: #fffbeb;
+    color: #f59e0b;
+  }
+
+  .bg-light-purple {
+    background: #f5f3ff;
+    color: #8b5cf6;
+  }
+
+  .admin-stat-card h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  .admin-stat-card p {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  /* Split Sections */
+  .admin-main-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+  }
+
+  .admin-section-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+  }
+
+  .admin-section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Ranking List */
+  .ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+  }
+
+  .ranking-item:hover {
+    background: #f1f5f9;
+    transform: scale(1.02);
+  }
+
+  .helper-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .medal-icon {
+    font-size: 1.25rem;
+  }
+
+  .helper-name {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .help-count {
+    background: var(--premium-light);
+    color: var(--primary-green);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* Recent Table */
+  .admin-table-premium {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+  }
+
+  .admin-table-premium tr th {
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
+
+  .admin-table-premium tr td {
+    background: #f8fafc;
+    padding: 16px;
+    font-size: 0.9rem;
+  }
+
+  .admin-table-premium tr td:first-child {
+    border-radius: 12px 0 0 12px;
+  }
+
+  .admin-table-premium tr td:last-child {
+    border-radius: 0 12px 12px 0;
+  }
+
+  @media (max-width: 1200px) {
+    .admin-stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-main-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .admin-stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-dashboard-premium">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-extrabold text-dark m-0">Resumen del Panel</h2>
+    <span class="badge bg-white text-dark shadow-sm border py-2 px-3 rounded-pill fw-bold">
+      <i class="bi bi-calendar3 me-2 text-success"></i> {% now "d F, Y" %}
+    </span>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card">
+      <i class="bi bi-people-fill bg-light-green"></i>
+      <p>Usuarios Registrados</p>
+      <h3>{{ total_users|default:"0" }}</h3>
+    </div>
+    <div class="admin-stat-card">
+      <i class="bi bi-person-heart bg-light-blue"></i>
+      <p>Voluntarios Activos</p>
+      <h3>{{ total_volunteers|default:"0" }}</h3>
+    </div>
+    <div class="admin-stat-card">
+      <i class="bi bi-hourglass-split bg-light-amber"></i>
+      <p>Pendientes</p>
+      <h3>{{ pending_requests|default:"0" }}</h3>
+    </div>
+    <div class="admin-stat-card">
+      <i class="bi bi-check-circle-fill bg-light-purple"></i>
+      <p>Aprobadas</p>
+      <h3>{{ approved_requests|default:"0" }}</h3>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="admin-main-grid">
+    <div class="admin-col">
+      <div class="admin-section-card">
+        <div class="admin-section-title">
+          <i class="bi bi-list-check"></i> Solicitudes Recientes
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table-premium">
+            <thead>
+              <tr>
+                <th>Solicitante</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for s in recent_requests %}
+              <tr>
+                <td class="fw-bold">{{ s.volunteer.name }} {{ s.volunteer.last_name }}</td>
+                <td class="small">{{ s.category }}</td>
+                <td>
+                  <span
+                    class="badge {% if s.status == 'pending' %}bg-warning-subtle text-warning{% elif s.status == 'approved' %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-secondary{% endif %} rounded-pill">
+                    {{ s.get_status_display }}
+                  </span>
+                </td>
+                <td class="text-muted small">{{ s.created_at|date:"d/m/Y" }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">No hay actividad reciente.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-col">
+      <div class="admin-section-card">
+        <div class="admin-section-title">
+          <i class="bi bi-heart-fill text-danger"></i> Ranking Solidario
+        </div>
+        <p class="small text-muted mb-4">Colaboradores con mayor impacto esta semana.</p>
+
+        <div class="ranking-list">
+          {% if top_helpers %}
+          {% for helper in top_helpers %}
+          <div class="ranking-item">
+            <div class="helper-info">
+              <span class="medal-icon">
+                {% if forloop.counter == 1 %}🥇{% elif forloop.counter == 2 %}🥈{% elif forloop.counter == 3 %}🥉{% else
+                %}💖{% endif %}
+              </span>
+              <span class="helper-name">{{ helper.volunteer__name }} {{ helper.volunteer__last_name }}</span>
+            </div>
+            <span class="help-count">{{ helper.total_helps }} ayudas</span>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="text-center py-4">
+            <i class="bi bi-emoji-smile fs-1 text-muted opacity-50"></i>
+            <p class="text-muted mt-2">Pronto aparecerán aquí los mejores voluntarios.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

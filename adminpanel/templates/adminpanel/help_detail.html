@@ -1,0 +1,312 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Detalle de Solicitud - Admin Volunet{% endblock %}
+
+{% block styles %}
+<style>
+  .admin-help-detail {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .help-header-card {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .help-header-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+  }
+
+  .help-header-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .help-status-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .status-pending {
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  .status-approved {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .help-header-card h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+  }
+
+  .help-requester-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  .requester-link {
+    color: var(--primary-green);
+    text-decoration: none !important;
+    font-weight: 700;
+  }
+
+  /* Details Grid */
+  .help-details-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .help-section-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    height: 100%;
+  }
+
+  .help-section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #f8fafc;
+    padding-bottom: 12px;
+  }
+
+  .help-description-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    background: #f8fafc;
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .meta-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f5f9;
+  }
+
+  .meta-line:last-child {
+    border: none;
+  }
+
+  .meta-label {
+    color: var(--text-light);
+    font-weight: 600;
+  }
+
+  .meta-value {
+    color: var(--text-dark);
+    font-weight: 700;
+  }
+
+  /* Action Bar */
+  .admin-actions-bar {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    gap: 16px;
+    position: sticky;
+    bottom: 24px;
+    z-index: 100;
+    border: 1px solid #f1f5f9;
+  }
+
+  .btn-admin-action {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  @media (max-width: 900px) {
+    .help-details-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .admin-actions-bar {
+      flex-direction: column;
+      position: static;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-help-detail">
+
+  <!-- Header Card -->
+  <div class="help-header-card">
+    <div class="help-header-content">
+      <span class="help-status-top 
+                {% if help_obj.status == 'pending' %}status-pending
+                {% elif help_obj.status == 'approved' %}status-approved
+                {% elif help_obj.status == 'rejected' %}status-rejected
+                {% else %}bg-light text-dark{% endif %}">
+        <i class="bi bi-info-circle-fill"></i> {{ help_obj.get_status_display }}
+      </span>
+      <h1>{{ help_obj.title }}</h1>
+      <div class="help-requester-meta">
+        <span>Solicitante: </span>
+        <a href="{% url 'adminpanel:user_detail' help_obj.volunteer.id %}" class="requester-link">
+          {{ help_obj.volunteer.name }} {{ help_obj.volunteer.last_name }}
+        </a>
+        <span class="ms-2">ID: #{{ help_obj.id }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="help-details-grid">
+    <!-- Description -->
+    <div class="help-detail-col">
+      <div class="help-section-card">
+        <div class="help-section-title"><i class="bi bi-text-left"></i> Descripción del Caso</div>
+        <div class="help-description-text">
+          {{ help_obj.description }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Meta Data -->
+    <div class="help-detail-col">
+      <div class="help-section-card">
+        <div class="help-section-title"><i class="bi bi-info-square"></i> Datos de Solicitud</div>
+        <div class="meta-list">
+          <div class="meta-line">
+            <span class="meta-label">Categoría</span>
+            <span class="meta-value">{{ help_obj.get_category_display }}</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-label">Monto Solicitado</span>
+            <span class="meta-value text-success">${{ help_obj.amount|default:"0.00" }}</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-label">Ubicación</span>
+            <span class="meta-value">{{ help_obj.location|default:"No especificada" }}</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-label">Vigencia</span>
+            <span class="meta-value">{{ help_obj.date_start|date:"d M" }} - {{ help_obj.date_end|date:"d M, Y" }}</span>
+          </div>
+          <div class="meta-line">
+            <span class="meta-label">Cuenta Bancaria</span>
+            <span class="meta-value small">{{ help_obj.bank_account|default:"No registrada" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evidence Section -->
+  <div class="help-section-card mb-5">
+    <div class="help-section-title"><i class="bi bi-images"></i> Evidencias y Respaldos</div>
+
+    <div class="row g-4">
+      {% if help_obj.evidence_pdf %}
+      <div class="col-md-6">
+        <div class="p-3 border rounded-4 d-flex align-items-center justify-content-between bg-light">
+          <span class="fw-bold"><i class="bi bi-file-earmark-pdf text-danger fs-4 me-2"></i> Informe de Caso
+            (PDF)</span>
+          <a href="{{ help_obj.evidence_pdf.url }}" target="_blank"
+            class="btn btn-dark btn-sm rounded-pill px-3">Abrir</a>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if help_obj.evidence_image %}
+      <div class="col-12">
+        <p class="small text-muted mb-2">Fotografía o evidencia visual:</p>
+        <img src="{{ help_obj.evidence_image.url }}" class="img-fluid rounded-4 shadow-sm border w-100"
+          style="max-height: 500px; object-fit: contain;">
+      </div>
+      {% endif %}
+
+      {% if not help_obj.evidence_pdf and not help_obj.evidence_image %}
+      <div class="col-12 text-center py-4">
+        <i class="bi bi-exclamation-triangle fs-1 text-muted opacity-50"></i>
+        <p class="text-muted mt-2">No se adjuntaron evidencias para esta solicitud.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Actions Bar -->
+  <div class="admin-actions-bar">
+    {% if help_obj.status == 'pending' %}
+    <a href="{% url 'adminpanel:approve_help' help_obj.id %}" class="btn-admin-action bg-success text-white">
+      <i class="bi bi-check2-circle"></i> Aprobar Solicitud
+    </a>
+    <a href="{% url 'adminpanel:reject_help' help_obj.id %}" class="btn-admin-action bg-danger text-white">
+      <i class="bi bi-x-lg"></i> Rechazar
+    </a>
+    <a href="{% url 'adminpanel:request_resubmit_help' help_obj.id %}" class="btn-admin-action bg-warning text-dark">
+      <i class="bi bi-arrow-repeat"></i> Pedir Corrección
+    </a>
+    {% else %}
+    <div class="text-muted small fw-bold"><i class="bi bi-shield-fill-check"></i> Esta solicitud ya ha sido procesada.
+    </div>
+    <a href="{% url 'adminpanel:helps_list' %}" class="btn btn-light rounded-pill px-4 ms-auto">Volver</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

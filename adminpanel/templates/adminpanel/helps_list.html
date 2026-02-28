@@ -1,0 +1,236 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Solicitudes de Ayuda - Volunet Admin{% endblock %}
+
+{% block styles %}
+<style>
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .list-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  .premium-list-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f1f5f9;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .table-premium-admin {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+
+  .table-premium-admin th {
+    padding: 12px 20px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .table-premium-admin tr td {
+    background: #f8fafc;
+    padding: 16px 20px;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+  }
+
+  .table-premium-admin tr td:first-child {
+    border-radius: 16px 0 0 16px;
+  }
+
+  .table-premium-admin tr td:last-child {
+    border-radius: 0 16px 16px 0;
+  }
+
+  .table-premium-admin tr:hover td {
+    background: #f1f5f9;
+    transform: scale(1.005);
+  }
+
+  .help-title-cell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .help-title-cell .title {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .help-title-cell .requester {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  .status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bg-pending {
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  .bg-approved {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .bg-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .bg-active {
+    background: #eff6ff;
+    color: #1e40af;
+  }
+
+  .bg-closed {
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .btn-action-sm {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  .btn-view {
+    background: #f1f5f9;
+    color: var(--text-dark);
+  }
+
+  .btn-view:hover {
+    background: #e2e8f0;
+  }
+
+  .btn-approve {
+    background: #ecfdf5;
+    color: #10b981;
+  }
+
+  .btn-approve:hover {
+    background: #d1fae5;
+  }
+
+  .btn-reject {
+    background: #fee2e2;
+    color: #ef4444;
+  }
+
+  .btn-reject:hover {
+    background: #fecaca;
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="admin-helps-list">
+  <div class="list-header">
+    <h2>Solicitudes de Ayuda</h2>
+    <span class="text-muted fw-bold">{{ helps|length }} Solicitudes registradas</span>
+  </div>
+
+  <div class="premium-list-card">
+    <div class="table-responsive">
+      <table class="table-premium-admin">
+        <thead>
+          <tr>
+            <th>Proyecto / Solicitud</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for help in helps %}
+          <tr>
+            <td>
+              <div class="help-title-cell">
+                <span class="title">{{ help.title }}</span>
+                <span class="requester"><i class="bi bi-person me-1"></i> {{ help.volunteer.name }} {{
+                  help.volunteer.last_name }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="small text-dark fw-semibold">{{ help.get_category_display }}</span>
+            </td>
+            <td>
+              {% if help.status == 'pending' %}
+              <span class="status-badge bg-pending"><i class="bi bi-clock-history"></i> Pendiente</span>
+              {% elif help.status == 'approved' %}
+              <span class="status-badge bg-approved"><i class="bi bi-patch-check-fill"></i> Aprobada</span>
+              {% elif help.status == 'rejected' %}
+              <span class="status-badge bg-rejected"><i class="bi bi-x-circle-fill"></i> Rechazada</span>
+              {% elif help.status == 'active' %}
+              <span class="status-badge bg-active"><i class="bi bi-lightning-fill"></i> Activa</span>
+              {% elif help.status == 'closed' %}
+              <span class="status-badge bg-closed"><i class="bi bi-lock-fill"></i> Cerrada</span>
+              {% else %}
+              <span class="status-badge bg-pending">{{ help.get_status_display }}</span>
+              {% endif %}
+            </td>
+            <td>
+              <span class="text-muted small fw-semibold">{{ help.created_at|date:"d M, Y" }}</span>
+            </td>
+            <td class="text-end">
+              <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'adminpanel:help_detail' help.id %}" class="btn-action-sm btn-view">
+                  <i class="bi bi-eye"></i> Ver
+                </a>
+                {% if help.status == 'pending' %}
+                <a href="{% url 'adminpanel:approve_help' help.id %}" class="btn-action-sm btn-approve">
+                  <i class="bi bi-check2"></i>
+                </a>
+                <a href="{% url 'adminpanel:reject_help' help.id %}" class="btn-action-sm btn-reject">
+                  <i class="bi bi-x-lg"></i>
+                </a>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">Aún no se han registrado solicitudes de ayuda.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

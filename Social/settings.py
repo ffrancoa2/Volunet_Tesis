@@ -9,23 +9,27 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from django.core.mail import send_mail
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOCALE_PATHS = [BASE_DIR / 'locale']
+
+# Load environment variables
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d6(6onwserltrmkf3ksdckc+mn)2@#0f@rf4@_wn@3^y0a%lw9'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'default-unsafe-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -41,9 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'users',
-    'volunteers'
-  
-    
+    'volunteers',
+    'adminpanel',
+    'anymail',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -133,3 +137,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# --- CONFIGURACIÓN DE ENVÍO DE EMAIL CON SENDGRID ---
+# EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+# ANYMAIL = {
+#     "SENDGRID_API_KEY": "SG.your-sendgrid-api-key-here",
+# }
+
+# TEMPORAL: Imprimir correos en la consola en su lugar porque la cuota de SendGrid expiró
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
