@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-unsafe-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -141,12 +141,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Configuración WhiteNoise para servir estáticos en producción
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Permitir que WhiteNoise busque en STATICFILES_DIRS si no encuentra en STATIC_ROOT
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
