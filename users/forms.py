@@ -10,7 +10,7 @@ class UserForm(UserCreationForm):
         model = User
         fields = [
             'email', 'name', 'last_name', 'sex', 'date',
-            'phone_number', 'dni', 'profile_image', 'password1', 'password2'
+            'phone_number', 'dni', 'profile_image'
         ]
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo electrónico', 'required': True}),
