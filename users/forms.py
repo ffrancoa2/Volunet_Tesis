@@ -5,7 +5,18 @@ import datetime
 
 User = get_user_model()
 
-class UserForm(UserCreationForm):
+class UserForm(forms.ModelForm):
+    password1 = forms.CharField(
+        label='Contraseña',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}),
+        required=True
+    )
+    password2 = forms.CharField(
+        label='Confirmar contraseña',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirmar contraseña'}),
+        required=True
+    )
+
     class Meta:
         model = User
         fields = [
@@ -23,13 +34,19 @@ class UserForm(UserCreationForm):
             'profile_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['password1'].label = 'Contraseña'
-        self.fields['password2'].label = 'Confirmar contraseña'
+    def clean_password2(self):
+        p1 = self.cleaned_data.get('password1')
+        p2 = self.cleaned_data.get('password2')
+        if p1 and p2 and p1 != p2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        return p2
 
-        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Contraseña'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirmar contraseña'})
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
