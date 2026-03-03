@@ -6,10 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import rotate_token
 
 
-def principal(request):
-    return render(request, 'users/principal.html')
-
-
 def register(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
@@ -72,9 +68,6 @@ def edit_profile(request):
             messages.error(request, "Corrige los errores del formulario.")
     else:
         form = ProfileForm(instance=user)
-
-    return render(request, 'users/profile.html', {'form': form})
-
 
     return render(request, 'users/profile.html', {'form': form})
 
